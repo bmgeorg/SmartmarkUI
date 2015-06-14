@@ -1,15 +1,55 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// Enable strict mode for entire script
+"use strict";
 
-// Search the bookmarks when entering the search keyword.
-$(document).ready(function() {
+$(function() {
     $("#current_folder").click(function() {
-        $("#folder_chooser_list").toggle();
+        $("#folder_choose_list").toggle();
+        loadRootFolders();
     });
 });
 
+function loadRootFolders() {
+    chrome.bookmarks.getTree(function(rootFolder) {
+        var rootFolders = rootFolder[0].children;
+        $("#folder_choose_list").empty();
+        for(let i = 0; i < rootFolders.length; i++) {
+            var newRow = createFolderRow(rootFolders[i]);
+            $("#folder_choose_list").append(newRow);
+        }
+    });
+}
+
+function replaceFolderChooseList(subnodes) {
+    if($("#folder_choose_list").children().length > 0) {
+
+    } else {
+        $("#folder_choose_list").empty();
+        for(let i = 0; i < subnodes.length; i++) {
+            var newRow = createFolderRow(subnodes[i]);
+            $("#folder_choose_list").append(newRow);
+        }
+    }
+}
+
+function createFolderRow(folderNode) {
+    return '\
+    <div class="folder_choose_row">\
+        <div class="folder_choose_row_left">\
+            <img src="http://icons.iconseeker.com/ico/minimal-folder/minimal-burnable-folder.ico" class="small_icon" />\
+            <span>' +
+            folderNode.title +
+            '</span>\
+        </div>\
+        <div class="folder_choose_row_right">\
+        </div>\
+    </div>\
+    ';
+}
 /*
+document.addEventListener('DOMContentLoaded', function () {
+  dumpBookmarkFolders();
+});
+
 $(function() {
   $('#search').change(function() {
      $('#bookmarks').empty();
