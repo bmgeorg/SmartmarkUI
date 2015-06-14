@@ -1,0 +1,77 @@
+body {
+	margin: 0px;
+}
+
+.box {
+    margin: 10px;
+    min-height: 20px;
+    background-color: #EEE;
+}
+.small_pad {
+    padding: 5px;
+}
+.light_border {
+    border: 1px solid #888;
+}
+.small_icon {
+    height: 30px;
+    width: 30px;
+}
+.center_x {
+    margin-left: auto;
+    margin-right: auto;
+}
+.flex_row {
+    display: flex;
+    align-items: center;
+}
+.flex_right_item {
+    margin-left: auto;
+}
+.folder_select {
+    margin-right: auto;
+}
+.folder_choose_row {
+    display: flex;
+    align-items: center;
+    border-top: 1px solid #AAA;
+    height: 50px;
+}
+.folder_choose_row_left {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+}
+.folder_choose_row_right {
+    height: 100%;
+    width: 30px;
+
+    background: url("http://www.myiconfinder.com/uploads/iconsets/7e81c2f3697b91ee17fe6ed6348c232a-Arrow.png") no-repeat center;
+    background-size: 10px 10px;
+}
+
+#smartmark {
+    width: 380px;
+    
+    background-color: #CFCFCF;
+}
+#current_page_block {
+    /* a hack to ensure inner div fills top and bottom of #smartmark div */
+    padding: 1px;
+
+    background-color: green;
+}
+#config_expand_container {
+    background-color: blue;
+}
+#folder_choose_list {
+    border-top: 1px solid #888;
+}
+#config_expand_button {
+    background-image: url("http://managementscience.biz/wp-content/uploads/2014/11/plus-sign-icon-16x16.gif");
+    background-size: 100% 100%;
+}
+#config_block {
+    border-top: 1px solid #444;
+}
