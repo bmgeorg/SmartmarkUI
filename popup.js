@@ -1,9 +1,9 @@
 // Enable strict mode for entire script
 "use strict";
 
-$(function() {
-    $("#folder_choose_list").hide();
+const CHOOSE_FOLDER_INNER_LIST_WIDTH = "358px";
 
+$(function() {
     $("#current_folder").click(function() {
         var folderList = $("#folder_choose_list");
         if(folderList.is(":visible")) {
@@ -37,7 +37,20 @@ function navigateToFolder(folderNode) {
     if(oldList.length > 0) {
         oldList = oldList.eq(0);
         console.log("Replacing an old list: " + oldList);
+        newList.css("left", CHOOSE_FOLDER_INNER_LIST_WIDTH);
         $("#folder_choose_list").append(newList);
+
+        /* animate sliding oldList out and newList in */
+
+        newList.animate(
+            {left: "0px"}, { duration: 300, queue: false }
+        );
+
+        oldList.animate(
+            {left: "-358px"}, { duration: 300, queue: false,
+            complete: function() { $(this).remove(); } }
+        );
+
     } else {
         $("#folder_choose_list").append(newList);
     }

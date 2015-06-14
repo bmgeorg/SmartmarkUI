@@ -36,8 +36,13 @@ body {
 .flex_right_item {
     margin-left: auto;
 }
-.folder_select {
-    margin-right: auto;
+.folder_choose_inner_list {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: auto;
+    max-height: 200px;
 }
 .folder_choose_row {
     display: flex;
@@ -75,8 +80,11 @@ body {
 }
 #folder_choose_list {
     border-top: 1px solid #888;
-    max-height: 200px;
-    overflow: auto;
+    height: 200px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    display: none;
 }
 #config_expand_button {
     background-image: url("http://managementscience.biz/wp-content/uploads/2014/11/plus-sign-icon-16x16.gif");
