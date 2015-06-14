@@ -1,7 +1,11 @@
 // Enable strict mode for entire script
 "use strict";
 
-const CHOOSE_FOLDER_INNER_LIST_WIDTH = "358px";
+const FOLDER_CHOOSE_INNER_LIST_WIDTH = "358px";
+var DirectionEnum = {
+    SLIDE_RIGHT: 0,
+    SLIDE_LEFT: 1,
+}
 
 $(function() {
     $("#current_folder").click(function() {
@@ -17,45 +21,83 @@ $(function() {
 
 function loadTopLevelFolders() {
     $("#folder_choose_list").empty();
-    chrome.bookmarks.getTree(function(rootFolder) {
-        navigateToFolder(rootFolder[0]);
+    chrome.bookmarks.getTree(function(rootFolders) {
+        var rootFolder = rootFolders[0];
+        var newList = createFolderInnerList(rootFolder, false);
+        $("#folder_choose_list").append(newList);
     });
 }
 
-function navigateToFolder(folderNode) {
-    var oldList = $("#folder_choose_list .folder_choose_inner_list");
+function navigateToFolder(folderNode, direction) {
+    if(direction !== DirectionEnum.SLIDE_LEFT &&
+        direction !== DirectionEnum.SLIDE_RIGHT) {
+        throw "direction should be of type DirectionEnum";
+    }
+    var oldList = $("#folder_choose_list .folder_choose_inner_list").eq(0);
 
+    var newList = createFolderInnerList(folderNode, !isRoot(folderNode) );
+
+    /* hide newList */
+    if(direction === DirectionEnum.SLIDE_LEFT) {
+        newList.css("left", FOLDER_CHOOSE_INNER_LIST_WIDTH);
+    } else {
+        newList.css("left", "-" + FOLDER_CHOOSE_INNER_LIST_WIDTH);
+    }
+
+    $("#folder_choose_list").append(newList);
+
+    /* Animate sliding oldList out and newList in, then remove oldList.
+     * Set queue to false to animate both concurrently.
+     */
+    newList.animate(
+        {left: "0px"}, { duration: 300, queue: false }
+    );
+    if(direction === DirectionEnum.SLIDE_LEFT) {
+        oldList.animate(
+            {left: "-" + FOLDER_CHOOSE_INNER_LIST_WIDTH}, { duration: 300, queue: false,
+            complete: function() { $(this).remove(); } }
+        );
+    } else {
+        oldList.animate(
+            {left: FOLDER_CHOOSE_INNER_LIST_WIDTH}, { duration: 300, queue: false,
+            complete: function() { $(this).remove(); } }
+        );
+    }
+}
+
+function navigateBack() {
+    var containingFolder = $("#folder_choose_list").data("containingFolder");
+    if(typeof containingFolder.parentId !== "undefined") {
+        chrome.bookmarks.getSubTree(containingFolder.parentId, function(resultNodes) {
+            console.log("Parent id: " + containingFolder.parentId); 
+            console.log("Length: " + resultNodes.length);
+            console.log(resultNodes[0]);
+            navigateToFolder(resultNodes[0], DirectionEnum.SLIDE_RIGHT);
+        });
+    } else {
+        // Do nothing if at root
+    }
+}
+
+function createFolderInnerList(folderNode, withTopBar) {
     var newList = $('<div class="folder_choose_inner_list"></div>');
     for(let i = 0; i < folderNode.children.length; i++) {
-        /* only add if child is a folder */
+        /* only add child to list if child is a folder */
         if(!folderNode.children[i].url) {
             var newRow = createFolderRow(folderNode.children[i]);
             newList.append(newRow);
         }
     }
 
-    if(oldList.length > 0) {
-        oldList = oldList.eq(0);
-        console.log("Replacing an old list: " + oldList);
-        newList.css("left", CHOOSE_FOLDER_INNER_LIST_WIDTH);
-        $("#folder_choose_list").append(newList);
-
-        /* animate sliding oldList out and newList in */
-
-        newList.animate(
-            {left: "0px"}, { duration: 300, queue: false }
-        );
-
-        oldList.animate(
-            {left: "-358px"}, { duration: 300, queue: false,
-            complete: function() { $(this).remove(); } }
-        );
-
-    } else {
-        $("#folder_choose_list").append(newList);
+    if(withTopBar) {
+        /* add back button/title bar to newList */
+        var topBar = $('<div class="containing_folder_row flex_row"><div class="back_button"></div><span class="containing_folder_name">Containing Folder name</span></div>');
+        topBar.click(navigateBack);
+        newList.prepend(topBar);
     }
 
-    $("#folder_choose_list").data("folderNode", folderNode);
+    $("#folder_choose_list").data("containingFolder", folderNode);
+    return newList;
 }
 
 function createFolderRow(folderNode) {
@@ -72,11 +114,14 @@ function createFolderRow(folderNode) {
     ');
     row.data("folderNode", folderNode);
     row.click(function() {
-        console.log("Clicked row: " + $(this).data("folderNode"));
-        navigateToFolder($(this).data("folderNode"));
+        navigateToFolder($(this).data("folderNode"), DirectionEnum.SLIDE_LEFT);
     });
 
     return row;
+}
+
+function isRoot(folderNode) {
+    return typeof folderNode.parentId === "undefined";
 }
 /*
 document.addEventListener('DOMContentLoaded', function () {

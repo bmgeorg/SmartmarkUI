@@ -63,6 +63,14 @@ body {
     background: url("http://www.myiconfinder.com/uploads/iconsets/7e81c2f3697b91ee17fe6ed6348c232a-Arrow.png") no-repeat center;
     background-size: 10px 10px;
 }
+.back_button {
+    background: url("https://cdn3.iconfinder.com/data/icons/eldorado-stroke-player/40/button_backward_1-128.png") no-repeat center;
+    background-size: 20px 20px;
+    height: 20px;
+    width: 20px;
+
+    padding: 5px;
+}
 
 #smartmark {
     width: 380px;
