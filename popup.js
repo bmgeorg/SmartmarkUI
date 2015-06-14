@@ -2,38 +2,53 @@
 "use strict";
 
 $(function() {
+    $("#folder_choose_list").hide();
+
     $("#current_folder").click(function() {
-        $("#folder_choose_list").toggle();
-        loadRootFolders();
+        var folderList = $("#folder_choose_list");
+        if(folderList.is(":visible")) {
+            folderList.hide();
+        } else {
+            loadTopLevelFolders();
+            folderList.show();
+        }
     });
 });
 
-function loadRootFolders() {
+function loadTopLevelFolders() {
+    $("#folder_choose_list").empty();
     chrome.bookmarks.getTree(function(rootFolder) {
-        var rootFolders = rootFolder[0].children;
-        $("#folder_choose_list").empty();
-        for(let i = 0; i < rootFolders.length; i++) {
-            var newRow = createFolderRow(rootFolders[i]);
-            $("#folder_choose_list").append(newRow);
-        }
+        navigateToFolder(rootFolder[0]);
     });
 }
 
-function replaceFolderChooseList(subnodes) {
-    if($("#folder_choose_list").children().length > 0) {
+function navigateToFolder(folderNode) {
+    var oldList = $("#folder_choose_list .folder_choose_inner_list");
 
-    } else {
-        $("#folder_choose_list").empty();
-        for(let i = 0; i < subnodes.length; i++) {
-            var newRow = createFolderRow(subnodes[i]);
-            $("#folder_choose_list").append(newRow);
+    var newList = $('<div class="folder_choose_inner_list"></div>');
+    for(let i = 0; i < folderNode.children.length; i++) {
+        /* if child is a folder */
+        if(!folderNode.children[i].url) {
+            var newRow = createFolderRow(folderNode.children[i]);
+            newList.append(newRow);
+        } else {
+            console.log("Bookmark: " + folderNode.children[i].url);
         }
     }
+
+    if(oldList.length > 0) {
+        oldList = oldList.eq(0);
+        console.log("Replacing an old list: " + oldList);
+        $("#folder_choose_list").append(newList);
+    } else {
+        $("#folder_choose_list").append(newList);
+    }
+
+    $("#folder_choose_list").data("folderNode", folderNode);
 }
 
 function createFolderRow(folderNode) {
-    return '\
-    <div class="folder_choose_row">\
+    var row = $('<div class="folder_choose_row">\
         <div class="folder_choose_row_left">\
             <img src="http://icons.iconseeker.com/ico/minimal-folder/minimal-burnable-folder.ico" class="small_icon" />\
             <span>' +
@@ -43,7 +58,14 @@ function createFolderRow(folderNode) {
         <div class="folder_choose_row_right">\
         </div>\
     </div>\
-    ';
+    ');
+    row.data("folderNode", folderNode);
+    row.click(function() {
+        console.log("Clicked row: " + $(this).data("folderNode"));
+        navigateToFolder($(this).data("folderNode"));
+    });
+
+    return row;
 }
 /*
 document.addEventListener('DOMContentLoaded', function () {
