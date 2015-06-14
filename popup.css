@@ -75,6 +75,8 @@ body {
 }
 #folder_choose_list {
     border-top: 1px solid #888;
+    max-height: 200px;
+    overflow: auto;
 }
 #config_expand_button {
     background-image: url("http://managementscience.biz/wp-content/uploads/2014/11/plus-sign-icon-16x16.gif");

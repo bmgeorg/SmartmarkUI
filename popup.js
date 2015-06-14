@@ -27,12 +27,10 @@ function navigateToFolder(folderNode) {
 
     var newList = $('<div class="folder_choose_inner_list"></div>');
     for(let i = 0; i < folderNode.children.length; i++) {
-        /* if child is a folder */
+        /* only add if child is a folder */
         if(!folderNode.children[i].url) {
             var newRow = createFolderRow(folderNode.children[i]);
             newList.append(newRow);
-        } else {
-            console.log("Bookmark: " + folderNode.children[i].url);
         }
     }
 
