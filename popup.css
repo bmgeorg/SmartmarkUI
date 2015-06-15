@@ -18,6 +18,7 @@ body {
 }
 div {
     -webkit-user-select: none;
+    cursor: default;
 }
 
 #smartmark {
@@ -89,7 +90,6 @@ Utility classes
 .flex_right_item {
     margin-left: auto;
 }
-
 
 /*
 *************************************************************************

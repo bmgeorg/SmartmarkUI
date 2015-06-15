@@ -141,6 +141,8 @@ function createFolderRow(outerList, folder) {
     // If folder is a smart folder, gray out and place smart folder icon
     if(backend.isSmartFolder(folder.id)) {
         row.addClass("gray_text");
+        // Add tooltip
+        row.attr("title", "already a smart folder");
         var icon = $(".folder_icon", row);
         icon.removeClass("folder_icon").addClass("lightbulb_folder_icon");
     }
