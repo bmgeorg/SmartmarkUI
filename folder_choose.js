@@ -22,7 +22,7 @@ function loadRootFolderList(outerList) {
     chrome.bookmarks.getTree(function(rootFolderArray) {
         var rootFolder = rootFolderArray[0];
         var innerList = createInnerList(outerList, rootFolder);
-        outerList.data("containingFolder", rootFolder);
+        outerList.data("currentListFolder", rootFolder);
         outerList.append(innerList);
     });
 }
@@ -34,30 +34,32 @@ var SlideDirectionEnum = {
 }
 
 // outerList - jQuery
-// folderNode - BookmarkTreeNode
+// folder - BookmarkTreeNode
 // direction - SlideDirectionEnum
-function replaceInnerList(outerList, folderNode, direction) {
+function replaceInnerList(outerList, folder, direction) {
     if(direction !== SlideDirectionEnum.TO_LEFT &&
         direction !== SlideDirectionEnum.TO_RIGHT) {
         throw "direction should be of type SlideDirectionEnum";
     }
+    // Find old inner list inside outerList
     var oldList = $(".folder_choose_inner_list", outerList).eq(0);
 
-    var newList = createInnerList(outerList, folderNode);
+    var newList = createInnerList(outerList, folder);
 
     /* hide newList to right or left, depending on slide direction */
     if(direction === SlideDirectionEnum.TO_LEFT) {
         newList.css("left", FOLDER_LIST_WIDTH);
-    } else {
+    } else if(direction === SlideDirectionEnum.TO_RIGHT) {
         newList.css("left", "-" + FOLDER_LIST_WIDTH);
     }
 
     outerList.append(newList);
-    outerList.data("containingFolder", folderNode);
 
-    /* Animate sliding oldList out and newList in, then remove oldList.
-     * Set queue to false to animate both concurrently.
-     */
+    // Store BookmarkTreeNode folder as data in the outerList
+    outerList.data("currentListFolder", folder);
+
+    // Animate sliding oldList out and newList in, then remove oldList.
+    // Set queue to false to animate both concurrently.
     newList.animate(
         {left: "0px"}, { duration: 300, queue: false }
     );
@@ -76,66 +78,72 @@ function replaceInnerList(outerList, folderNode, direction) {
 
 // outerList - jQuery
 function navigateBack(outerList) {
-    var containingFolder = outerList.data("containingFolder");
+    var currentListFolder = outerList.data("currentListFolder");
     // Only navigate back if not at root
-    if(typeof containingFolder.parentId !== "undefined") {
-        chrome.bookmarks.getSubTree(containingFolder.parentId, function(parentNodeArray) {
+    if(typeof currentListFolder.parentId !== "undefined") {
+        chrome.bookmarks.getSubTree(currentListFolder.parentId, function(parentNodeArray) {
             replaceInnerList(outerList, parentNodeArray[0], SlideDirectionEnum.TO_RIGHT);
         });
     }
 }
 
 // outerList - jQuery
-// folderNode - BookmarkTreeNode
-function createInnerList(outerList, folderNode) {
+// folder - BookmarkTreeNode
+function createInnerList(outerList, folder) {
     var newList = $('<div class="folder_choose_inner_list"></div>');
-    for(let i = 0; i < folderNode.children.length; i++) {
-        /* only add child to list if child is a folder */
-        if(!folderNode.children[i].url) {
-            var newRow = createFolderRow(outerList, folderNode.children[i]);
+    for(let i = 0; i < folder.children.length; i++) {
+        if(isFolder(folder.children[i])) {
+            var newRow = createFolderRow(outerList, folder.children[i]);
             newList.append(newRow);
         }
     }
 
-    // Show different top bar if folderNode is root
-    if(!isRoot(folderNode)) {
-        /* add back button/title bar to newList */
-        var topBar = $('<div class="folder_choose_outer_list_bar light_border_bottom flex_row"><div class="back_button_icon xsmall_icon small_pad"></div><span class="containing_folder_name">Containing Folder name</span></div>');
-        topBar.click(function() {
+    // Show navigation bar if folder is root
+    if(!isRoot(folder)) {
+        var navigationBar = $('\
+        <div class="folder_choose_navigation_bar light_border_bottom flex_row">\
+            <div class="back_button_icon xsmall_icon small_pad"></div>\
+            <span class="current_list_folder_name">' + folder.title + '</span>\
+        </div>\
+        ');
+        navigationBar.click(function() {
             navigateBack(outerList);    
         });
-        newList.prepend(topBar);
+        newList.prepend(navigationBar);
     }
 
     return newList;
 }
 
 // outerList - jQuery
-// folderNode - BookmarkTreeNode
-function createFolderRow(outerList, folderNode) {
-    var row = $('<div class="folder_choose_row light_border_bottom">\
+// folder - BookmarkTreeNode
+function createFolderRow(outerList, folder) {
+    var row = $('\
+    <div class="folder_choose_row light_border_bottom">\
         <div class="folder_choose_row_left">\
             <div class="folder_icon small_icon"></div>\
-            <span>' +
-            folderNode.title +
-            '</span>\
+            <span>' + folder.title + '</span>\
         </div>\
         <div class="folder_choose_row_right">\
         </div>\
     </div>\
     ');
     // Attach BookmarkTreeNode folder to row
-    row.data("folderNode", folderNode);
+    row.data("folder", folder);
     row.click(function() {
-        replaceInnerList(outerList, $(this).data("folderNode"), SlideDirectionEnum.TO_LEFT);
+        replaceInnerList(outerList, $(this).data("folder"), SlideDirectionEnum.TO_LEFT);
     });
 
     return row;
 }
 
-// folderNode - BookmarkTreeNode
-function isRoot(folderNode) {
-    return typeof folderNode.parentId === "undefined";
+// folder - BookmarkTreeNode
+function isRoot(folder) {
+    return typeof folder.parentId === "undefined";
 }
 
+// node - BookmarkTreeNode
+function isFolder(node) {
+    return typeof node.url === "undefined";
+}
 })(); /* IIFE */
