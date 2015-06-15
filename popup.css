@@ -46,6 +46,8 @@ div {
 Utility classes
 *************************************************************************
 */
+
+
 .box {
     margin: 10px;
     min-height: 20px;
@@ -53,6 +55,12 @@ Utility classes
 }
 .small_pad {
     padding: 5px;
+}
+.small_height {
+    height: 30px;
+}
+.big_width {
+    width: 280px;
 }
 
 .light_border {
@@ -65,13 +73,8 @@ Utility classes
     border-top: 1px solid #888;
 }
 
-.xsmall_icon {
-    height: 15px;
-    width: 15px;
-}
-.small_icon {
-    height: 30px;
-    width: 30px;
+.gray_text {
+    color: #888;
 }
 
 .center_x {
@@ -95,8 +98,21 @@ Icons
 */
 
 
+.xsmall_icon {
+    height: 15px;
+    width: 15px;
+}
+.small_icon {
+    height: 30px;
+    width: 30px;
+}
+
 .folder_icon {
     background: url("http://icons.iconseeker.com/ico/minimal-folder/minimal-burnable-folder.ico") no-repeat center;
+    background-size: 100%;
+}
+.lightbulb_folder_icon {
+    background: url("http://icons.iconarchive.com/icons/mcdo-design/smooth-leopard/512/Idea-Folder-Blue-icon.png") no-repeat center;
     background-size: 100%;
 }
 .dropdown_icon {
@@ -115,9 +131,11 @@ Icons
 
 /*
 *************************************************************************
-Folder Choose
+Folder Choose Dialog
 *************************************************************************
 */
+
+
 .folder_choose_outer_list {
     height: 200px;
     width: 100%;

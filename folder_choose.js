@@ -98,7 +98,16 @@ function createInnerList(outerList, folder) {
         }
     }
 
-    // Show navigation bar if folder is root
+    // Add new folder input
+    var newFolderRow = $('\
+    <div class="flex_row small_height small_pad light_border_bottom">\
+        <input placeholder="New Folder" class="small_height big_width"/>\
+        <div class="flex_right_item">Create</div>\
+    </div>\
+    ');
+    newList.prepend(newFolderRow)
+
+    // Add navigation bar if folder is root
     if(!isRoot(folder)) {
         var navigationBar = $('\
         <div class="folder_choose_navigation_bar light_border_bottom flex_row">\
@@ -128,6 +137,13 @@ function createFolderRow(outerList, folder) {
         </div>\
     </div>\
     ');
+
+    // If folder is a smart folder, gray out and place smart folder icon
+    if(backend.isSmartFolder(folder.id)) {
+        row.addClass("gray_text");
+        var icon = $(".folder_icon", row);
+        icon.removeClass("folder_icon").addClass("lightbulb_folder_icon");
+    }
     // Attach BookmarkTreeNode folder to row
     row.data("folder", folder);
     row.click(function() {
