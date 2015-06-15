@@ -1,3 +1,10 @@
+/*
+*************************************************************************
+Entire page
+*************************************************************************
+*/
+
+
 html {
     /* a hack to make popup resize to content - otherwise whitespace gets
        added to bottom of popup when content is expanded and then shrunk. */
@@ -9,7 +16,36 @@ body {
     height: 0px;
 	margin: 0px;
 }
+div {
+    -webkit-user-select: none;
+}
 
+#smartmark {
+    width: 380px;
+    background-color: #CFCFCF;
+}
+#current_page_block {
+    /* a hack to ensure inner div fills top and bottom of #smartmark div */
+    padding: 1px;
+    background-color: green;
+}
+#config_expand_container {
+    background-color: blue;
+}
+#config_expand_button {
+    background-image: url("http://managementscience.biz/wp-content/uploads/2014/11/plus-sign-icon-16x16.gif");
+    background-size: 100%;
+}
+#config_block {
+    border-top: 1px solid #444;
+}
+
+
+/*
+*************************************************************************
+Utility classes
+*************************************************************************
+*/
 .box {
     margin: 10px;
     min-height: 20px;
@@ -18,6 +54,7 @@ body {
 .small_pad {
     padding: 5px;
 }
+
 .light_border {
     border: 1px solid #AAA;
 }
@@ -36,10 +73,12 @@ body {
     height: 30px;
     width: 30px;
 }
+
 .center_x {
     margin-left: auto;
     margin-right: auto;
 }
+
 .flex_row {
     display: flex;
     align-items: center;
@@ -48,34 +87,13 @@ body {
     margin-left: auto;
 }
 
-.folder_choose_inner_list {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    overflow: auto;
-    max-height: 200px;
-}
-.folder_choose_row {
-    display: flex;
-    align-items: center;
-    height: 50px;
-}
-.folder_choose_row_left {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    flex-grow: 1;
-}
-.folder_choose_row_right {
-    height: 100%;
-    width: 30px;
-    background: url("http://www.myiconfinder.com/uploads/iconsets/7e81c2f3697b91ee17fe6ed6348c232a-Arrow.png") no-repeat center;
-    background-size: 10px 10px;
-}
-.folder_choose_list_bar {
-    height: 35px;
-}
+
+/*
+*************************************************************************
+Icons
+*************************************************************************
+*/
+
 
 .folder_icon {
     background: url("http://icons.iconseeker.com/ico/minimal-folder/minimal-burnable-folder.ico") no-repeat center;
@@ -94,31 +112,44 @@ body {
     background-size: 100%;
 }
 
-#smartmark {
-    width: 380px;
-    
-    background-color: #CFCFCF;
-}
-#current_page_block {
-    /* a hack to ensure inner div fills top and bottom of #smartmark div */
-    padding: 1px;
 
-    background-color: green;
-}
-#folder_choose_list {
+/*
+*************************************************************************
+Folder Choose
+*************************************************************************
+*/
+.folder_choose_outer_list {
     height: 200px;
     width: 100%;
     position: relative;
     overflow: hidden;
     display: none;
 }
-#config_expand_container {
-    background-color: blue;
+.folder_choose_inner_list {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: auto;
+    max-height: 200px;
 }
-#config_expand_button {
-    background-image: url("http://managementscience.biz/wp-content/uploads/2014/11/plus-sign-icon-16x16.gif");
-    background-size: 100%;
+.folder_choose_list_bar {
+    height: 35px;
 }
-#config_block {
-    border-top: 1px solid #444;
+.folder_choose_row {
+    display: flex;
+    align-items: center;
+    height: 50px;
+}
+.folder_choose_row_left {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+}
+.folder_choose_row_right {
+    height: 100%;
+    width: 30px;
+    background: url("http://www.myiconfinder.com/uploads/iconsets/7e81c2f3697b91ee17fe6ed6348c232a-Arrow.png") no-repeat center;
+    background-size: 10px 10px;
 }

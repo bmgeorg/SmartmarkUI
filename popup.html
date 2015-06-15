@@ -1,19 +1,30 @@
 <html>
 <head>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="folder_choose.js"></script>
   <script src="popup.js"></script>
   <link rel="stylesheet" type="text/css" href="popup.css">
 </head>
 <body>
 	<div id="smartmark">
 		<div id="current_page_block">
-			<div id="folder_choose_box" class="box light_border">
-				<div id="current_folder_row" class="flex_row small_pad dark_border_bottom">
+			<div id="current_page_folder_choose_dialog" class="folder_choose_box box light_border">
+				<div class="current_folder_row flex_row small_pad dark_border_bottom">
 					<div class="folder_icon small_icon"></div>
                     <span>Programming</span>
                     <div class="dropdown_icon xsmall_icon flex_right_item"></div>
 				</div>
-				<div id="folder_choose_list" class="dark_border_top">
+				<div class="folder_choose_outer_list dark_border_top">
+				</div>
+			</div>
+
+			<div id="new_folder_choose_dialog" class="folder_choose_box box light_border">
+				<div class="current_folder_row flex_row small_pad dark_border_bottom">
+					<div class="folder_icon small_icon"></div>
+                    <span>Programming</span>
+                    <div class="dropdown_icon xsmall_icon flex_right_item"></div>
+				</div>
+				<div class="folder_choose_outer_list dark_border_top">
 				</div>
 			</div>
 
