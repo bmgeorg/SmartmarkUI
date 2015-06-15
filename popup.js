@@ -8,7 +8,7 @@ var DirectionEnum = {
 }
 
 $(function() {
-    $("#current_folder").click(function() {
+    $("#current_folder_row").click(function() {
         var folderList = $("#folder_choose_list");
         if(folderList.is(":visible")) {
             folderList.hide();
@@ -103,7 +103,7 @@ function createFolderInnerList(folderNode, withTopBar) {
 function createFolderRow(folderNode) {
     var row = $('<div class="folder_choose_row">\
         <div class="folder_choose_row_left">\
-            <img src="http://icons.iconseeker.com/ico/minimal-folder/minimal-burnable-folder.ico" class="small_icon" />\
+            <div class="folder_icon small_icon"></div>\
             <span>' +
             folderNode.title +
             '</span>\

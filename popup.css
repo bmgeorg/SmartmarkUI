@@ -21,6 +21,10 @@ body {
 .light_border {
     border: 1px solid #888;
 }
+.xsmall_icon {
+    height: 15px;
+    width: 15px;
+}
 .small_icon {
     height: 30px;
     width: 30px;
@@ -59,7 +63,6 @@ body {
 .folder_choose_row_right {
     height: 100%;
     width: 30px;
-
     background: url("http://www.myiconfinder.com/uploads/iconsets/7e81c2f3697b91ee17fe6ed6348c232a-Arrow.png") no-repeat center;
     background-size: 10px 10px;
 }
@@ -68,8 +71,20 @@ body {
     background-size: 20px 20px;
     height: 20px;
     width: 20px;
-
     padding: 5px;
+}
+
+.folder_icon {
+    background: url("http://icons.iconseeker.com/ico/minimal-folder/minimal-burnable-folder.ico") no-repeat center;
+    background-size: 100%;
+}
+.dropdown_icon {
+    background: url("http://static.neatorama.com/img9/icon-dropdown.gif") no-repeat center;
+    background-size: 100%;
+}
+.lightbulb_icon {
+    background: url("http://4.bp.blogspot.com/-P1lQtQ54rLY/UTh-ixH2K7I/AAAAAAAAjj4/B8vh1pB3cqw/s1600/Inkscape_Lightbulb_by_GommaVulcanizzata.png") no-repeat center;
+    background-size: 100%;
 }
 
 #smartmark {
@@ -96,7 +111,7 @@ body {
 }
 #config_expand_button {
     background-image: url("http://managementscience.biz/wp-content/uploads/2014/11/plus-sign-icon-16x16.gif");
-    background-size: 100% 100%;
+    background-size: 100%;
 }
 #config_block {
     border-top: 1px solid #444;
