@@ -10,14 +10,14 @@ $(function() {
         if(outerList.is(":visible")) {
             outerList.hide();
         } else {
-            loadRootFolder(outerList);
+            loadRootFolderList(outerList);
             outerList.show();
         }
     });
 });
 
 // outerList - jQuery
-function loadRootFolder(outerList) {
+function loadRootFolderList(outerList) {
     outerList.empty();
     chrome.bookmarks.getTree(function(rootFolderArray) {
         var rootFolder = rootFolderArray[0];
@@ -29,16 +29,16 @@ function loadRootFolder(outerList) {
 
 const FOLDER_LIST_WIDTH = "358px";
 var SlideDirectionEnum = {
-    RIGHT: 0,
-    LEFT: 1,
+    TO_RIGHT: 0,
+    TO_LEFT: 1,
 }
 
 // outerList - jQuery
 // folderNode - BookmarkTreeNode
 // direction - SlideDirectionEnum
 function replaceInnerList(outerList, folderNode, direction) {
-    if(direction !== SlideDirectionEnum.LEFT &&
-        direction !== SlideDirectionEnum.RIGHT) {
+    if(direction !== SlideDirectionEnum.TO_LEFT &&
+        direction !== SlideDirectionEnum.TO_RIGHT) {
         throw "direction should be of type SlideDirectionEnum";
     }
     var oldList = $(".folder_choose_inner_list", outerList).eq(0);
@@ -46,7 +46,7 @@ function replaceInnerList(outerList, folderNode, direction) {
     var newList = createInnerList(outerList, folderNode, !isRoot(folderNode));
 
     /* hide newList to right or left, depending on slide direction */
-    if(direction === SlideDirectionEnum.LEFT) {
+    if(direction === SlideDirectionEnum.TO_LEFT) {
         newList.css("left", FOLDER_LIST_WIDTH);
     } else {
         newList.css("left", "-" + FOLDER_LIST_WIDTH);
@@ -61,7 +61,7 @@ function replaceInnerList(outerList, folderNode, direction) {
     newList.animate(
         {left: "0px"}, { duration: 300, queue: false }
     );
-    if(direction === SlideDirectionEnum.LEFT) {
+    if(direction === SlideDirectionEnum.TO_LEFT) {
         oldList.animate(
             {left: "-" + FOLDER_LIST_WIDTH}, { duration: 300, queue: false,
             complete: function() { $(this).remove(); } }
@@ -74,17 +74,14 @@ function replaceInnerList(outerList, folderNode, direction) {
     }
 }
 
-function navigateBack() {
-    var containingFolder = $(".folder_choose_outer_list").data("containingFolder");
+// outerList - jQuery
+function navigateBack(outerList) {
+    var containingFolder = outerList.data("containingFolder");
+    // Only navigate back if not at root
     if(typeof containingFolder.parentId !== "undefined") {
-        chrome.bookmarks.getSubTree(containingFolder.parentId, function(resultNodes) {
-            console.log("Parent id: " + containingFolder.parentId); 
-            console.log("Length: " + resultNodes.length);
-            console.log(resultNodes[0]);
-            replaceInnerList($(".folder_choose_outer_list").eq(0), resultNodes[0], SlideDirectionEnum.RIGHT);
+        chrome.bookmarks.getSubTree(containingFolder.parentId, function(parentNodeArray) {
+            replaceInnerList(outerList, parentNodeArray[0], SlideDirectionEnum.TO_RIGHT);
         });
-    } else {
-        // Do nothing if at root
     }
 }
 
@@ -104,7 +101,9 @@ function createInnerList(outerList, folderNode, withTopBar) {
     if(withTopBar) {
         /* add back button/title bar to newList */
         var topBar = $('<div class="folder_choose_outer_list_bar light_border_bottom flex_row"><div class="back_button_icon xsmall_icon small_pad"></div><span class="containing_folder_name">Containing Folder name</span></div>');
-        topBar.click(navigateBack);
+        topBar.click(function() {
+            navigateBack(outerList);    
+        });
         newList.prepend(topBar);
     }
 
@@ -125,9 +124,10 @@ function createFolderRow(outerList, folderNode) {
         </div>\
     </div>\
     ');
+    // Attach BookmarkTreeNode folder to row
     row.data("folderNode", folderNode);
     row.click(function() {
-        replaceInnerList(outerList, $(this).data("folderNode"), SlideDirectionEnum.LEFT);
+        replaceInnerList(outerList, $(this).data("folderNode"), SlideDirectionEnum.TO_LEFT);
     });
 
     return row;
