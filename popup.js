@@ -91,7 +91,7 @@ function createFolderInnerList(folderNode, withTopBar) {
 
     if(withTopBar) {
         /* add back button/title bar to newList */
-        var topBar = $('<div class="containing_folder_row flex_row"><div class="back_button"></div><span class="containing_folder_name">Containing Folder name</span></div>');
+        var topBar = $('<div class="folder_choose_list_bar light_border_bottom flex_row"><div class="back_button_icon xsmall_icon small_pad"></div><span class="containing_folder_name">Containing Folder name</span></div>');
         topBar.click(navigateBack);
         newList.prepend(topBar);
     }
@@ -101,7 +101,7 @@ function createFolderInnerList(folderNode, withTopBar) {
 }
 
 function createFolderRow(folderNode) {
-    var row = $('<div class="folder_choose_row">\
+    var row = $('<div class="folder_choose_row light_border_bottom">\
         <div class="folder_choose_row_left">\
             <div class="folder_icon small_icon"></div>\
             <span>' +

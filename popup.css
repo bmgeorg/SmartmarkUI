@@ -19,8 +19,15 @@ body {
     padding: 5px;
 }
 .light_border {
-    border: 1px solid #888;
+    border: 1px solid #AAA;
 }
+.light_border_bottom {
+    border-bottom: 1px solid #AAA;
+}
+.dark_border_top {
+    border-top: 1px solid #888;
+}
+
 .xsmall_icon {
     height: 15px;
     width: 15px;
@@ -40,6 +47,7 @@ body {
 .flex_right_item {
     margin-left: auto;
 }
+
 .folder_choose_inner_list {
     position: absolute;
     top: 0;
@@ -51,7 +59,6 @@ body {
 .folder_choose_row {
     display: flex;
     align-items: center;
-    border-top: 1px solid #AAA;
     height: 50px;
 }
 .folder_choose_row_left {
@@ -66,12 +73,8 @@ body {
     background: url("http://www.myiconfinder.com/uploads/iconsets/7e81c2f3697b91ee17fe6ed6348c232a-Arrow.png") no-repeat center;
     background-size: 10px 10px;
 }
-.back_button {
-    background: url("https://cdn3.iconfinder.com/data/icons/eldorado-stroke-player/40/button_backward_1-128.png") no-repeat center;
-    background-size: 20px 20px;
-    height: 20px;
-    width: 20px;
-    padding: 5px;
+.folder_choose_list_bar {
+    height: 35px;
 }
 
 .folder_icon {
@@ -86,6 +89,10 @@ body {
     background: url("http://4.bp.blogspot.com/-P1lQtQ54rLY/UTh-ixH2K7I/AAAAAAAAjj4/B8vh1pB3cqw/s1600/Inkscape_Lightbulb_by_GommaVulcanizzata.png") no-repeat center;
     background-size: 100%;
 }
+.back_button_icon {
+    background: url("https://cdn3.iconfinder.com/data/icons/eldorado-stroke-player/40/button_backward_1-128.png") no-repeat center;
+    background-size: 100%;
+}
 
 #smartmark {
     width: 380px;
@@ -98,16 +105,15 @@ body {
 
     background-color: green;
 }
-#config_expand_container {
-    background-color: blue;
-}
 #folder_choose_list {
-    border-top: 1px solid #888;
     height: 200px;
     width: 100%;
     position: relative;
     overflow: hidden;
     display: none;
+}
+#config_expand_container {
+    background-color: blue;
 }
 #config_expand_button {
     background-image: url("http://managementscience.biz/wp-content/uploads/2014/11/plus-sign-icon-16x16.gif");
