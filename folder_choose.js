@@ -3,7 +3,7 @@
 // Enable strict mode for entire script
 "use strict";
 
-// Show folder choose dialog when current folder name is clicked
+// Show folder choose dialog when current folder row is clicked
 $(function() {
     $(".current_folder_row").click(function() {
         var outerList = $(this).siblings(".folder_choose_outer_list");
@@ -21,7 +21,7 @@ function loadRootFolderList(outerList) {
     outerList.empty();
     chrome.bookmarks.getTree(function(rootFolderArray) {
         var rootFolder = rootFolderArray[0];
-        var innerList = createInnerList(outerList, rootFolder, false);
+        var innerList = createInnerList(outerList, rootFolder);
         outerList.data("containingFolder", rootFolder);
         outerList.append(innerList);
     });
@@ -43,7 +43,7 @@ function replaceInnerList(outerList, folderNode, direction) {
     }
     var oldList = $(".folder_choose_inner_list", outerList).eq(0);
 
-    var newList = createInnerList(outerList, folderNode, !isRoot(folderNode));
+    var newList = createInnerList(outerList, folderNode);
 
     /* hide newList to right or left, depending on slide direction */
     if(direction === SlideDirectionEnum.TO_LEFT) {
@@ -87,8 +87,7 @@ function navigateBack(outerList) {
 
 // outerList - jQuery
 // folderNode - BookmarkTreeNode
-// withTopBar - bool
-function createInnerList(outerList, folderNode, withTopBar) {
+function createInnerList(outerList, folderNode) {
     var newList = $('<div class="folder_choose_inner_list"></div>');
     for(let i = 0; i < folderNode.children.length; i++) {
         /* only add child to list if child is a folder */
@@ -98,7 +97,8 @@ function createInnerList(outerList, folderNode, withTopBar) {
         }
     }
 
-    if(withTopBar) {
+    // Show different top bar if folderNode is root
+    if(!isRoot(folderNode)) {
         /* add back button/title bar to newList */
         var topBar = $('<div class="folder_choose_outer_list_bar light_border_bottom flex_row"><div class="back_button_icon xsmall_icon small_pad"></div><span class="containing_folder_name">Containing Folder name</span></div>');
         topBar.click(function() {
