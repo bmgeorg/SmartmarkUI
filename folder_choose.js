@@ -21,7 +21,8 @@ function loadRootFolder(outerList) {
     outerList.empty();
     chrome.bookmarks.getTree(function(rootFolderArray) {
         var rootFolder = rootFolderArray[0];
-        var innerList = createInnerList(rootFolder, false);
+        var innerList = createInnerList(outerList, rootFolder, false);
+        outerList.data("containingFolder", rootFolder);
         outerList.append(innerList);
     });
 }
@@ -42,7 +43,7 @@ function replaceInnerList(outerList, folderNode, direction) {
     }
     var oldList = $(".folder_choose_inner_list", outerList).eq(0);
 
-    var newList = createInnerList(folderNode, !isRoot(folderNode));
+    var newList = createInnerList(outerList, folderNode, !isRoot(folderNode));
 
     /* hide newList to right or left, depending on slide direction */
     if(direction === SlideDirectionEnum.LEFT) {
@@ -52,6 +53,7 @@ function replaceInnerList(outerList, folderNode, direction) {
     }
 
     outerList.append(newList);
+    outerList.data("containingFolder", folderNode);
 
     /* Animate sliding oldList out and newList in, then remove oldList.
      * Set queue to false to animate both concurrently.
@@ -86,13 +88,15 @@ function navigateBack() {
     }
 }
 
+// outerList - jQuery
+// folderNode - BookmarkTreeNode
 // withTopBar - bool
-function createInnerList(folderNode, withTopBar) {
+function createInnerList(outerList, folderNode, withTopBar) {
     var newList = $('<div class="folder_choose_inner_list"></div>');
     for(let i = 0; i < folderNode.children.length; i++) {
         /* only add child to list if child is a folder */
         if(!folderNode.children[i].url) {
-            var newRow = createFolderRow(folderNode.children[i]);
+            var newRow = createFolderRow(outerList, folderNode.children[i]);
             newList.append(newRow);
         }
     }
@@ -107,7 +111,9 @@ function createInnerList(folderNode, withTopBar) {
     return newList;
 }
 
-function createFolderRow(folderNode) {
+// outerList - jQuery
+// folderNode - BookmarkTreeNode
+function createFolderRow(outerList, folderNode) {
     var row = $('<div class="folder_choose_row light_border_bottom">\
         <div class="folder_choose_row_left">\
             <div class="folder_icon small_icon"></div>\
@@ -121,12 +127,13 @@ function createFolderRow(folderNode) {
     ');
     row.data("folderNode", folderNode);
     row.click(function() {
-        replaceInnerList($(".folder_choose_outer_list").eq(0), $(this).data("folderNode"), SlideDirectionEnum.LEFT);
+        replaceInnerList(outerList, $(this).data("folderNode"), SlideDirectionEnum.LEFT);
     });
 
     return row;
 }
 
+// folderNode - BookmarkTreeNode
 function isRoot(folderNode) {
     return typeof folderNode.parentId === "undefined";
 }
