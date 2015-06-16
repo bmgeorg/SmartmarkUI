@@ -22,7 +22,7 @@ div {
 }
 
 #smartmark {
-    width: 380px;
+    width: 300px;
     background-color: #CFCFCF;
 }
 #current_page_block {
@@ -60,8 +60,11 @@ Utility classes
 .small_height {
     height: 30px;
 }
-.big_width {
-    width: 280px;
+.full_height {
+    height: 100%;
+}
+.small_width {
+    width: 80px;
 }
 
 .light_border {
@@ -90,6 +93,10 @@ Utility classes
 .flex_right_item {
     margin-left: auto;
 }
+.flex_growable {
+    flex-grow: 1;
+}
+
 
 /*
 *************************************************************************
@@ -170,4 +177,12 @@ Folder Choose Dialog
     width: 30px;
     background: url("http://www.myiconfinder.com/uploads/iconsets/7e81c2f3697b91ee17fe6ed6348c232a-Arrow.png") no-repeat center;
     background-size: 10px 10px;
+}
+.create_folder_button {
+    line-height: 30px;
+    height: 100%;
+    width: 80px;
+    text-align: center;
+    margin-left: 5px;
+    background-color: lightgray;
 }

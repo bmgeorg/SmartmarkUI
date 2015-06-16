@@ -27,7 +27,7 @@ function loadRootFolderList(outerList) {
     });
 }
 
-const FOLDER_LIST_WIDTH = "358px";
+const FULL_WIDTH = "400px";
 var SlideDirectionEnum = {
     TO_RIGHT: 0,
     TO_LEFT: 1,
@@ -48,9 +48,9 @@ function replaceInnerList(outerList, folder, direction) {
 
     /* hide newList to right or left, depending on slide direction */
     if(direction === SlideDirectionEnum.TO_LEFT) {
-        newList.css("left", FOLDER_LIST_WIDTH);
+        newList.css("left", FULL_WIDTH);
     } else if(direction === SlideDirectionEnum.TO_RIGHT) {
-        newList.css("left", "-" + FOLDER_LIST_WIDTH);
+        newList.css("left", "-" + FULL_WIDTH);
     }
 
     outerList.append(newList);
@@ -65,12 +65,12 @@ function replaceInnerList(outerList, folder, direction) {
     );
     if(direction === SlideDirectionEnum.TO_LEFT) {
         oldList.animate(
-            {left: "-" + FOLDER_LIST_WIDTH}, { duration: 300, queue: false,
+            {left: "-" + FULL_WIDTH}, { duration: 300, queue: false,
             complete: function() { $(this).remove(); } }
         );
     } else {
         oldList.animate(
-            {left: FOLDER_LIST_WIDTH}, { duration: 300, queue: false,
+            {left: FULL_WIDTH}, { duration: 300, queue: false,
             complete: function() { $(this).remove(); } }
         );
     }
@@ -101,8 +101,8 @@ function createInnerList(outerList, folder) {
     // Add new folder input
     var newFolderRow = $('\
     <div class="flex_row small_height small_pad light_border_bottom">\
-        <input placeholder="New Folder" class="small_height big_width"/>\
-        <div class="flex_right_item">Create</div>\
+        <input placeholder="New Folder" class="full_height flex_growable"/>\
+        <div class="create_folder_button">Create</div>\
     </div>\
     ');
     newList.prepend(newFolderRow)
