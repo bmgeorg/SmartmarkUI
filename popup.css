@@ -30,15 +30,15 @@ div {
     padding: 1px;
     background-color: green;
 }
-#config_expand_container {
-    background-color: blue;
-}
 #config_expand_button {
-    background-image: url("http://managementscience.biz/wp-content/uploads/2014/11/plus-sign-icon-16x16.gif");
-    background-size: 100%;
+    width: 100%;
+    height: 30px;
+    background: #AAA url("http://managementscience.biz/wp-content/uploads/2014/11/plus-sign-icon-16x16.gif") no-repeat center;
+    background-size: 25px 25px;
 }
 #config_block {
     border-top: 1px solid #444;
+    display: none;
 }
 
 
