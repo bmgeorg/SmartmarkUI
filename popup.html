@@ -6,10 +6,11 @@
   <script src="popup.js"></script>
   <link rel="stylesheet" type="text/css" href="popup.css">
 </head>
-<body>
+<!-- Add tabindex to body so that no other element receives autofocus -->
+<body tabindex="0">
 	<div id="smartmark">
 		<div id="current_page_block">
-			<div id="current_page_folder_choose_dialog" class="folder_choose_box box light_border">
+			<div id="current_page_folder_choose_dialog" class="folder_choose_box box">
 				<div class="current_folder_row flex_row small_pad dark_border_bottom">
 					<div class="folder_icon small_icon"></div>
                     <span>Programming</span>
@@ -19,7 +20,7 @@
 				</div>
 			</div>
 
-			<div id="new_folder_choose_dialog" class="folder_choose_box box light_border">
+			<div id="new_folder_choose_dialog" class="folder_choose_box box">
 				<div class="current_folder_row flex_row small_pad dark_border_bottom">
 					<div class="folder_icon small_icon"></div>
                     <span>Programming</span>
@@ -35,6 +36,20 @@
 				<span class="flex_right_item">Recommended</span>
 			</div>
 		</div>
+
+        <div id="config_block">
+            <div class="smart_folder_box box">
+                <div class="smart_folder_name_row flex_row">
+                    <div class="lightbulb_folder_icon small_icon"></div>
+                    <input type="text" class="smart_folder_name full_height no_autofocus" value="Racquetball stuff" placeholder="Set folder name">
+                </div>
+                <div class="smart_folder_tags_row flex_row">
+                    <input type="text" class="full_height no_autofocus" value="Racquet, sports, store, warehouse" placeholder="Tags (C++, Java, imgur)">
+                </div>
+                <div class="smart_folder_delete_button"></div>
+            </div>
+        </div>
+
 		<div id="config_expand_container">
 			<div id="config_block"></div>
 			<div id="config_expand_button" class="small_icon light_border center_x"></div>
