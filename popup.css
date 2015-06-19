@@ -37,7 +37,7 @@ div {
     background-size: 25px 25px;
 }
 #config_block {
-    max-height: 450px;
+    max-height: 400px;
     overflow-y: auto;
     border-top: 1px solid #444;
     /* Hide config_block until expanded by config_expand_button */
