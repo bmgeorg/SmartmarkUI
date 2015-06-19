@@ -14,6 +14,7 @@ $(function() {
 
 // container - jQuery
 function loadSmartFolders(container) {
+    container.empty();
     var smartFolders = backend.getSmartFolders();
     for(var i = 0; i < smartFolders.length; i++) {
         var smartFolder = createSmartFolderBox(smartFolders[i]);
@@ -24,17 +25,35 @@ function loadSmartFolders(container) {
 // smartFolder - SmartFolder (see backend_interface)
 // returns - jQuery
 function createSmartFolderBox(smartFolder) {
-    var smartFolderBox = $('\
-    <div class="smart_folder_box box">\
-        <div class="smart_folder_name_row flex_row">\
-            <div class="lightbulb_folder_icon small_icon"></div>\
-            <input type="text" class="smart_folder_name full_height no_autofocus" value="' + smartFolder.name() + '" placeholder="Set folder name">\
-        </div>\
-        <div class="smart_folder_tags_row flex_row">\
-            <input type="text" class="full_height no_autofocus" value="' + smartFolder.tagsString() + '" placeholder="Tags (C++, Java, imgur)">\
-        </div>\
-        <div class="smart_folder_delete_button"></div>\
-    </div>\
-    ');
+    var smartFolderBox = $('<div class="smart_folder_box box"></div>');
+    var nameRow = $('<div class="smart_folder_name_row flex_row"></div>');
+    var tagsRow = $('<div class="smart_folder_tags_row flex_row"></div>');
+
+    var nameInput = $('<input type="text" class="smart_folder_name full_height" placeholder="Set folder name"></div>');
+    nameInput.val(smartFolder.name());
+    nameInput.change(function() {
+        var newName = $(this).val();
+        console.log("Changing name to " + newName);
+        var theSmartFolder = smartFolderBox.data("smartFolder");
+        // If newName is not empty and not just whitespace
+        if(/\S/.test(newName)) {
+            theSmartFolder.changeName(newName);
+        } else {
+            // Disallow empty/whitespace name - reset to previous value
+            $(this).val(theSmartFolder.name());
+        }
+    });
+    var tagsInput = $('<input type="text" class="full_height" placeholder="Tags (C++, Java, imgur)"></div>');
+    tagsInput.attr("value", smartFolder.tagsString());
+
+    nameRow.append('<div class="lightbulb_folder_icon small_icon"></div>');
+    nameRow.append(nameInput);
+    tagsRow.append(tagsInput);
+
+    smartFolderBox.append(nameRow);
+    smartFolderBox.append(tagsRow);
+
     smartFolderBox.data("smartFolder", smartFolder);
+
+    return smartFolderBox;
 }

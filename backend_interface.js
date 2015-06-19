@@ -10,6 +10,8 @@ var backend = {
             /* Public API */
             this.name = function() { return this._name; };
             this.tagsString = function() { return this._tagsString; };
+            this.changeName = function(newName) { this._name = newName; };
+            this.changeTagsString = function(newTagsString) { this._tagsString = newTagsString; };
 
             /* Private API */
             this._name = name;
