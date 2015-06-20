@@ -43,8 +43,17 @@ function createSmartFolderBox(smartFolder) {
             $(this).val(theSmartFolder.name());
         }
     });
+    blurOnEnter(nameInput);
+
     var tagsInput = $('<input type="text" class="full_height" placeholder="Tags (C++, Java, imgur)"></div>');
     tagsInput.attr("value", smartFolder.tagsString());
+    tagsInput.change(function() {
+        var newTagsString = $(this).val();
+        console.log("Changing tags string to " + newTagsString);
+        var theSmartFolder = smartFolderBox.data("smartFolder");
+        theSmartFolder.changeTagsString(newTagsString);
+    });
+    blurOnEnter(tagsInput);
 
     nameRow.append('<div class="lightbulb_folder_icon small_icon"></div>');
     nameRow.append(nameInput);
@@ -56,4 +65,14 @@ function createSmartFolderBox(smartFolder) {
     smartFolderBox.data("smartFolder", smartFolder);
 
     return smartFolderBox;
+}
+
+// Adds event listener that causes input to lose focus on enter press
+// input - jQuery
+function blurOnEnter(input) {
+    input.keypress(function(e) {
+        if(e.which == 13) {
+            $(this).blur();
+        }
+    });
 }
