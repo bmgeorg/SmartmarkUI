@@ -150,7 +150,9 @@ Folder Choose Dialog
 *************************************************************************
 */
 
-
+#new_folder_choose_dialog {
+    display: none;
+}
 .folder_choose_outer_list {
     height: 200px;
     width: 100%;
