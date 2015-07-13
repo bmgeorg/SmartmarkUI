@@ -8,9 +8,8 @@ var module = {};
 module.loadIn = function(container) {
     container.empty();
 
-    var list = $('<div class="smart_folder_list"></div>');
+    var list = $('<div class="slist"></div>');
 
-    // Add smart folder boxes
     var smartFolders = BACKEND.getSmartFolders();
     for(var i = 0; i < smartFolders.length; i++) {
         var item = createListItem(smartFolders[i]);
@@ -25,11 +24,19 @@ module.loadIn = function(container) {
 function createListItem(smartFolder) {
     var item = $('<div class="slist_item"></div>');
     item.data("smartFolder", smartFolder);
+    item.hover(
+        function() {
+            item.addClass("dark_background");
+        },
+        function() {
+            $(this).removeClass("dark_background");
+        }
+    );
 
     var nameRow = $('<div class="slist_item_top_row flex_row"></div>');
     var tagsRow = $('<div class="slist_item_bottom_row flex_row"></div>');
 
-    var name = $('<input type="text" class="slist_name full_height" \
+    var name = $('<input type="text" class="slist_item_name full_height" \
         placeholder="Set folder name" />');
     name.val(smartFolder.name());
     name.change(function() {
@@ -61,6 +68,10 @@ function createListItem(smartFolder) {
 
     item.append(nameRow);
     item.append(tagsRow);
+
+    // Add delete button
+    var deleteButton = $('<div class="slist_item_delete"></div>');
+    item.append(deleteButton);
 
     return item;
 }
