@@ -200,28 +200,29 @@ Folder Choose Dialog
 
 /*
 *************************************************************************
-Smart Folder Box
+Smart Folder List
 *************************************************************************
 */
 
 
-.smart_folder_box {
+.slist_item {
     position: relative;
 }
-.smart_folder_name_row {
+.slist_item_top_row {
     height: 25px;
     background-color: lightblue;
-    margin: 5px; 
+    padding: 5px; 
 }
-.smart_folder_name {
+.slist_item_name {
     cursor: text;
 }
-.smart_folder_tags_row {
+.slist_item_bottom_row {
     height: 25px;
     background-color: lightblue;
-    margin: 5px;
+    padding: 5px;
+    display: none;
 }
-.smart_folder_delete_button {
+.slist_item_delete {
     position: absolute;
     right: 5px;
     top: 5px;

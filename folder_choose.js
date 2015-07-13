@@ -124,7 +124,7 @@ function loadRootFolderList(outerList) {
         ');
 
         // If folder is a smart folder, gray out and place smart folder icon
-        if(backend.isSmartFolder(folder.id)) {
+        if(BACKEND.isSmartFolder(folder.id)) {
             row.addClass("gray_text");
             // Add tooltip
             row.attr("title", "already a smart folder");
