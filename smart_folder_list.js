@@ -41,8 +41,10 @@ function addListItem(list, smartFolder) {
     });
     item.append(shield);
 
-    var nameRow = $('<div class="slist_item_top_row flex_row"></div>');
-    nameRow.append('<div class="lightbulb_folder_icon small_icon"></div>');
+    var topRow = $('<div class="slist_item_top_row flex_row"></div>');
+    // Add folder icon
+    topRow.append('<div class="lightbulb_folder_icon small_icon"></div>');
+    // Add name input
     var name = $('<input type="text" class="slist_item_name full_height" \
         placeholder="Set folder name" />');
     name.val(smartFolder.name());
@@ -58,10 +60,13 @@ function addListItem(list, smartFolder) {
         }
     });
     blurOnEnter(name);
-    nameRow.append(name);
-    item.append(nameRow);
+    topRow.append(name);
+    // Add delete button
+    var deleteButton = $('<div class="slist_item_delete hidden"></div>');
+    topRow.append(deleteButton);
+    item.append(topRow);
 
-    var tagsRow = $('<div class="slist_item_bottom_row flex_row hidden"></div>');
+    var bottomRow = $('<div class="slist_item_bottom_row flex_row hidden"></div>');
     var tags = $('<input type="text" class="full_height slist_item_tags" \
         placeholder="Tags (C++, Java, imgur)" />');
     tags.attr("value", smartFolder.tagsString());
@@ -71,11 +76,8 @@ function addListItem(list, smartFolder) {
         theSmartFolder.changeTagsString(newTagsString);
     });
     blurOnEnter(tags);
-    tagsRow.append(tags);
-    item.append(tagsRow);
-
-    var deleteButton = $('<div class="slist_item_delete hidden"></div>');
-    item.append(deleteButton);
+    bottomRow.append(tags);
+    item.append(bottomRow);
 
     list.append(item);
 }
