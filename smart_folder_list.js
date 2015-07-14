@@ -62,7 +62,8 @@ function addListItem(list, smartFolder) {
     blurOnEnter(name);
     topRow.append(name);
     // Add delete button
-    var deleteButton = $('<div class="slist_item_delete hidden"></div>');
+    var deleteButton = $('<a class="slist_item_delete hidden" href="#delete_smart_folder_dialog"</a>');
+    deleteButton.leanModal();
     topRow.append(deleteButton);
     item.append(topRow);
 
