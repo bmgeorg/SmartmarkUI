@@ -61,8 +61,8 @@ function addListItem(list, smartFolder) {
     nameRow.append(name);
     item.append(nameRow);
 
-    var tagsRow = $('<div class="slist_item_bottom_row flex_row"></div>');
-    var tags = $('<input type="text" class="full_height" \
+    var tagsRow = $('<div class="slist_item_bottom_row flex_row hidden"></div>');
+    var tags = $('<input type="text" class="full_height slist_item_tags" \
         placeholder="Tags (C++, Java, imgur)" />');
     tags.attr("value", smartFolder.tagsString());
     tags.change(function() {
@@ -74,7 +74,7 @@ function addListItem(list, smartFolder) {
     tagsRow.append(tags);
     item.append(tagsRow);
 
-    var deleteButton = $('<div class="slist_item_delete"></div>');
+    var deleteButton = $('<div class="slist_item_delete hidden"></div>');
     item.append(deleteButton);
 
     list.append(item);
@@ -84,7 +84,8 @@ function addListItem(list, smartFolder) {
 function collapseAll(list) {
     $('.slist_item', list).removeClass('slist_item_expanded');
     $('.slist_item_shield', list).removeClass('slist_item_disabled_shield')
-    $('.slist_item_bottom_row', list).hide();
+    $('.slist_item_bottom_row', list).addClass('hidden');
+    $('.slist_item_delete', list).addClass('hidden');
 }
 
 // item - jQuery
@@ -92,7 +93,8 @@ function expand(item) {
     item.removeClass('slist_item_hover');
     item.addClass('slist_item_expanded');
     $('.slist_item_shield', item).addClass('slist_item_disabled_shield');
-    $('.slist_item_bottom_row', item).show();        
+    $('.slist_item_bottom_row', item).removeClass('hidden');
+    $('.slist_item_delete', item).removeClass('hidden');
 }
 
 // Adds event listener that causes input to lose focus on enter press

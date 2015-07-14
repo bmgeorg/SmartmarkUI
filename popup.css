@@ -122,6 +122,10 @@ Utility classes
     border: none;
 }
 
+.hidden {
+    display: none;
+}
+
 
 /*
 *************************************************************************
@@ -264,7 +268,9 @@ Smart Folder List
 .slist_item_bottom_row {
     height: 25px;
     padding: 5px;
-    display: none;
+}
+.slist_item_tags {
+    flex-grow: 1;
 }
 .slist_item_delete {
     position: absolute;
@@ -274,5 +280,7 @@ Smart Folder List
     background-size: 100%;
     height: 15px;
     width: 15px;
-    display: none;
+}
+.slist_item input:not(:focus):hover {
+    background-color: #BCD;
 }
