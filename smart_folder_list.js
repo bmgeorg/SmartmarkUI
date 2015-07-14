@@ -26,10 +26,10 @@ function createListItem(smartFolder) {
     item.data("smartFolder", smartFolder);
     item.hover(
         function() {
-            item.addClass("dark_background");
+            $(this).addClass("slist_item_hover");
         },
         function() {
-            $(this).removeClass("dark_background");
+            $(this).removeClass("slist_item_hover");
         }
     );
 
