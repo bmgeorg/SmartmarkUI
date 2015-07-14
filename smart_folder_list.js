@@ -24,18 +24,27 @@ module.loadIn = function(container) {
 function createListItem(smartFolder) {
     var item = $('<div class="slist_item"></div>');
     item.data("smartFolder", smartFolder);
-    item.hover(
+
+    // shield absorbs hover and click events propagates them to item, preventing item's children
+    // from receiving the events
+    var shield = $('<div class="slist_item_shield"></div>');
+    shield.hover(
         function() {
-            $(this).addClass("slist_item_hover");
+            item.addClass('slist_item_hover');
         },
         function() {
-            $(this).removeClass("slist_item_hover");
+            item.removeClass('slist_item_hover');
         }
     );
+    shield.click(function() {
+        $('.slist_item_shield').removeClass('slist_item_disabled_shield')
+        $(this).addClass('slist_item_disabled_shield');
+        $('.slist_item_bottom_row').hide();
+        $('.slist_item_bottom_row', item).show();        
+    });
+    item.append(shield);
 
     var nameRow = $('<div class="slist_item_top_row flex_row"></div>');
-    var tagsRow = $('<div class="slist_item_bottom_row flex_row"></div>');
-
     var name = $('<input type="text" class="slist_item_name full_height" \
         placeholder="Set folder name" />');
     name.val(smartFolder.name());
@@ -51,7 +60,11 @@ function createListItem(smartFolder) {
         }
     });
     blurOnEnter(name);
+    nameRow.append('<div class="lightbulb_folder_icon small_icon"></div>');
+    nameRow.append(name);
+    item.append(nameRow);
 
+    var tagsRow = $('<div class="slist_item_bottom_row flex_row"></div>');
     var tags = $('<input type="text" class="full_height" \
         placeholder="Tags (C++, Java, imgur)" />');
     tags.attr("value", smartFolder.tagsString());
@@ -61,15 +74,9 @@ function createListItem(smartFolder) {
         theSmartFolder.changeTagsString(newTagsString);
     });
     blurOnEnter(tags);
-
-    nameRow.append('<div class="lightbulb_folder_icon small_icon"></div>');
-    nameRow.append(name);
     tagsRow.append(tags);
-
-    item.append(nameRow);
     item.append(tagsRow);
 
-    // Add delete button
     var deleteButton = $('<div class="slist_item_delete"></div>');
     item.append(deleteButton);
 
