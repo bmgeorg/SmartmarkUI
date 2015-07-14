@@ -10,18 +10,17 @@ module.loadIn = function(container) {
 
     var list = $('<div class="slist"></div>');
 
-    var smartFolders = BACKEND.getSmartFolders();
+    var smartFolders = BACKEND.smartFolders();
     for(var i = 0; i < smartFolders.length; i++) {
-        var item = createListItem(smartFolders[i]);
-        list.append(item);
+        addListItem(list, smartFolders[i]);
     }
 
     container.append(list);
 }
 
+// list - jQuery
 // smartFolder - SmartFolder (see backend.js)
-// returns - jQuery
-function createListItem(smartFolder) {
+function addListItem(list, smartFolder) {
     var item = $('<div class="slist_item"></div>');
     item.data("smartFolder", smartFolder);
 
@@ -37,14 +36,13 @@ function createListItem(smartFolder) {
         }
     );
     shield.click(function() {
-        $('.slist_item_shield').removeClass('slist_item_disabled_shield')
-        $(this).addClass('slist_item_disabled_shield');
-        $('.slist_item_bottom_row').hide();
-        $('.slist_item_bottom_row', item).show();        
+        collapseAll(list);
+        expand(item);
     });
     item.append(shield);
 
     var nameRow = $('<div class="slist_item_top_row flex_row"></div>');
+    nameRow.append('<div class="lightbulb_folder_icon small_icon"></div>');
     var name = $('<input type="text" class="slist_item_name full_height" \
         placeholder="Set folder name" />');
     name.val(smartFolder.name());
@@ -60,7 +58,6 @@ function createListItem(smartFolder) {
         }
     });
     blurOnEnter(name);
-    nameRow.append('<div class="lightbulb_folder_icon small_icon"></div>');
     nameRow.append(name);
     item.append(nameRow);
 
@@ -80,7 +77,22 @@ function createListItem(smartFolder) {
     var deleteButton = $('<div class="slist_item_delete"></div>');
     item.append(deleteButton);
 
-    return item;
+    list.append(item);
+}
+
+// list - jQuery
+function collapseAll(list) {
+    $('.slist_item', list).removeClass('slist_item_expanded');
+    $('.slist_item_shield', list).removeClass('slist_item_disabled_shield')
+    $('.slist_item_bottom_row', list).hide();
+}
+
+// item - jQuery
+function expand(item) {
+    item.removeClass('slist_item_hover');
+    item.addClass('slist_item_expanded');
+    $('.slist_item_shield', item).addClass('slist_item_disabled_shield');
+    $('.slist_item_bottom_row', item).show();        
 }
 
 // Adds event listener that causes input to lose focus on enter press

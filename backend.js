@@ -10,7 +10,7 @@ module.isSmartFolder = function(folderId) {
 };
 
 // returns SmartFolder
-module.getSmartFolders = function() {
+module.smartFolders = function() {
     var smartFolders = [];
     smartFolders.push(new SmartFolder("Programming", ["C", "C++", "Class", "Java"]));
     smartFolders.push(new SmartFolder("Racquetball", ["Racquet", "tennis", "warehouse", "shoe"]));

@@ -230,6 +230,18 @@ Smart Folder List
     border: 1px solid #888;
     border-bottom: none;
 }
+.slist_item:last-child {
+    border-bottom: 1px solid #888;
+}
+.slist_item_hover {
+    border: 1px solid #444 !important;
+}
+.slist_item_hover + .slist_item {
+    border-top: none;
+}
+.slist_item_expanded {
+    background-color: #DDD;
+}
 .slist_item_shield {
     position: absolute;
     width: 100%;
@@ -239,15 +251,6 @@ Smart Folder List
 }
 .slist_item_disabled_shield {
     position: relative;
-}
-.slist_item:last-child {
-    border-bottom: 1px solid #888;
-}
-.slist_item_hover {
-    border: 1px solid #444 !important;
-}
-.slist_item_hover + .slist_item {
-    border-top: none;
 }
 .slist_item_top_row {
     height: 25px;
