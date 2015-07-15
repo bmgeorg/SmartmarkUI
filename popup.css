@@ -83,7 +83,7 @@ Dialogs
     left: 50%;
     transform: translate(-50%, -50%);
 }
-#confirm_folder_delete_dialog {
+#confirm_delete_dialog {
     width: 200px;
     background-color: #FFF;
 }

@@ -16,19 +16,14 @@ module.loadIn = function(container) {
 
     container.append(list);
 
-    addConfirmFolderDeleteDialog(container, list);
+    configureConfirmDeleteDialog(container, list);
 }
 
 // container - jQuery
 // list - jQuery
-function addConfirmFolderDeleteDialog(container, list) {
-    var d = $('\
-    <div id="confirm_folder_delete_dialog" class="dialog">\
-        <p>Are you sure you want to delete this smart folder?</p>\
-    </div>\
-    ');
-
-    var confirm = $('<div class="confirm">Confirm</div>');
+function configureConfirmDeleteDialog(container, list) {
+    var d = $('#confirm_delete_dialog');
+    var confirm = $('.confirm', d);
     confirm.click(function() {
         var item = list.data('selectedItem');
         if(item) {
@@ -39,15 +34,11 @@ function addConfirmFolderDeleteDialog(container, list) {
         DIALOG.closeDialog();
         module.loadIn(container);
     });
-    d.append(confirm);
 
-    var cancel = $('<div class="cancel">Cancel</div>');
+    var cancel = $('.cancel', d);
     cancel.click(function() {
         DIALOG.closeDialog();
     });
-    d.append(cancel);
-
-    container.append(d);
 }
 
 // list - jQuery
@@ -95,7 +86,7 @@ function addListItem(list, smartFolder) {
     // Add delete button
     var deleteButton = $('<div class="slist_item_delete hidden"></div>');
     deleteButton.click(function() {
-        DIALOG.showDialog('confirm_folder_delete_dialog');
+        DIALOG.showDialog('confirm_delete_dialog');
     });
     topRow.append(deleteButton);
     item.append(topRow);
