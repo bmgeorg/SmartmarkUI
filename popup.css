@@ -60,26 +60,42 @@ input:focus {
 
 /*
 *************************************************************************
-Overlays
-http://leanmodal.finelysliced.com.au/#
+Dialogs
 *************************************************************************
 */
 
 
-#lean_overlay {
+#dialog_overlay {
+    display: none;
     position: fixed;
-    z-index:100;
     top: 0px;
     left: 0px;
     height:100%;
     width:100%;
+    z-index:100;
     background: #000;
-    display: none;
 }
-#delete_smart_folder_dialog {
+.dialog {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+#confirm_folder_delete_dialog {
     width: 200px;
     background-color: #FFF;
-    display: none;
+}
+.confirm {
+    height: 50px;
+    width: 80px;
+    background-color: red;
+}
+.cancel {
+    height: 50px;
+    width: 80px;
+    background-color: #888;
 }
 
 
