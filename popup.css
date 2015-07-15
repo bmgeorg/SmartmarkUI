@@ -15,6 +15,10 @@ body {
        added to bottom of popup when content is expanded and then shrunk. */
     height: 0px;
 	margin: 0px;
+    font-family: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 13px;
+    line-height: 1.846;
+    color: #666;
 }
 div {
     -webkit-user-select: none;
@@ -82,19 +86,37 @@ Dialogs
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px #000;
+    border-radius: 3px;
+}
+.dialog_body {
+    margin-bottom: 10px;
+}
+.dialog_footer {
+    display: flex;
 }
 #confirm_delete_dialog {
     width: 200px;
+    padding: 15px;
     background-color: #FFF;
 }
-.confirm {
-    height: 50px;
+.btn {
+    display: inline-block;
+    height: 35px;
     width: 80px;
+    color: #FFF;
+    border-radius: 3px;
+    box-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+.confirm_delete {
+    margin-left: auto;
+    margin-right: 10px;
     background-color: red;
 }
-.cancel {
-    height: 50px;
-    width: 80px;
+.cancel_delete {
     background-color: #888;
 }
 

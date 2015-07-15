@@ -23,19 +23,25 @@ module.loadIn = function(container) {
 // list - jQuery
 function configureConfirmDeleteDialog(container, list) {
     var d = $('#confirm_delete_dialog');
-    var confirm = $('.confirm', d);
+    var confirm = $('.confirm_delete', d);
+    // Necessary to clear old listeners because smart list could be reloaded, but confirm
+    // delete dialog will not be emptied and reloaded.
+    confirm.off('click');
     confirm.click(function() {
         var item = list.data('selectedItem');
         if(item) {
             var folder = item.data('smartFolder');
             BACKEND.delete(folder);
         }
+
         // Close dialog and reload list
         DIALOG.closeDialog();
+        container.empty();
         module.loadIn(container);
     });
 
-    var cancel = $('.cancel', d);
+    var cancel = $('.cancel_delete', d);
+    cancel.off('click');
     cancel.click(function() {
         DIALOG.closeDialog();
     });
@@ -45,7 +51,7 @@ function configureConfirmDeleteDialog(container, list) {
 // smartFolder - SmartFolder (see backend.js)
 function addListItem(list, smartFolder) {
     var item = $('<div class="slist_item"></div>');
-    item.data("smartFolder", smartFolder);
+    item.data('smartFolder', smartFolder);
 
     // shield absorbs hover and click events propagates them to item, preventing item's children
     // from receiving the events
@@ -72,7 +78,7 @@ function addListItem(list, smartFolder) {
     name.val(smartFolder.name());
     name.change(function() {
         var newName = $(this).val();
-        var theSmartFolder = item.data("smartFolder");
+        var theSmartFolder = item.data('smartFolder');
         // If newName is not empty and not just whitespace
         if(/\S/.test(newName)) {
             theSmartFolder.changeName(newName);
@@ -97,7 +103,7 @@ function addListItem(list, smartFolder) {
     tags.attr("value", smartFolder.tagsString());
     tags.change(function() {
         var newTagsString = $(this).val();
-        var theSmartFolder = item.data("smartFolder");
+        var theSmartFolder = item.data('smartFolder');
         theSmartFolder.changeTagsString(newTagsString);
     });
     blurOnEnter(tags);
@@ -110,7 +116,7 @@ function addListItem(list, smartFolder) {
 // list - jQuery
 // item - jQuery
 function selectItem(list, item) {
-    list.data("selectedItem", item);
+    list.data('selectedItem', item);
     collapseAll(list);
     expand(item);
 }
