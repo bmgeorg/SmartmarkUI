@@ -7,12 +7,6 @@ var module = {};
 // container - jQuery
 module.loadIn = function(container) {
     container.empty();
-    addList(container);
-    addConfirmFolderDelete(container);
-}
-
-// list - jQuery
-function addList(container) {
     var list = $('<div class="slist"></div>');
 
     var smartFolders = BACKEND.smartFolders();
@@ -21,10 +15,13 @@ function addList(container) {
     }
 
     container.append(list);
+
+    addConfirmFolderDeleteDialog(container, list);
 }
 
 // container - jQuery
-function addConfirmFolderDelete(container) {
+// list - jQuery
+function addConfirmFolderDeleteDialog(container, list) {
     var d = $('\
     <div id="confirm_folder_delete_dialog" class="dialog">\
         <p>Are you sure you want to delete this smart folder?</p>\
@@ -33,11 +30,21 @@ function addConfirmFolderDelete(container) {
 
     var confirm = $('<div class="confirm">Confirm</div>');
     confirm.click(function() {
-        
+        var item = list.data('selectedItem');
+        if(item) {
+            var folder = item.data('smartFolder');
+            BACKEND.delete(folder);
+        }
+        // Close dialog and reload list
+        DIALOG.closeDialog();
+        module.loadIn(container);
     });
     d.append(confirm);
 
     var cancel = $('<div class="cancel">Cancel</div>');
+    cancel.click(function() {
+        DIALOG.closeDialog();
+    });
     d.append(cancel);
 
     container.append(d);
@@ -99,7 +106,7 @@ function addListItem(list, smartFolder) {
     tags.attr("value", smartFolder.tagsString());
     tags.change(function() {
         var newTagsString = $(this).val();
-        var theSmartFolder = smartFolderBox.data("smartFolder");
+        var theSmartFolder = item.data("smartFolder");
         theSmartFolder.changeTagsString(newTagsString);
     });
     blurOnEnter(tags);

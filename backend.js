@@ -4,19 +4,32 @@
 var BACKEND = (function() {
 var module = {};
 
+var smartFolders = [];
+smartFolders.push(new SmartFolder('Programming', 'C, C++, Class, Java'));
+smartFolders.push(new SmartFolder('Racquetball', 'Racquet, tennis, warehouse, shoe'));
+smartFolders.push(new SmartFolder('Racquetball', 'Racquet, tennis, warehouse, shoe'));
+smartFolders.push(new SmartFolder('Racquetball', 'Racquet, tennis, warehouse, shoe'));
+
 // folderId - string
 module.isSmartFolder = function(folderId) {
+    // TODO: real check for smartness
     return folderId%2 == 0;
 };
 
 // returns SmartFolder
 module.smartFolders = function() {
-    var smartFolders = [];
-    smartFolders.push(new SmartFolder("Programming", ["C", "C++", "Class", "Java"]));
-    smartFolders.push(new SmartFolder("Racquetball", ["Racquet", "tennis", "warehouse", "shoe"]));
-    smartFolders.push(new SmartFolder("Racquetball", ["Racquet", "tennis", "warehouse", "shoe"]));
-    smartFolders.push(new SmartFolder("Racquetball", ["Racquet", "tennis", "warehouse", "shoe"]));
     return smartFolders;
+};
+
+// folder - SmartFolder
+module.delete = function(folder) {
+    for(var i = 0; i < smartFolders.length; i++) {
+        if(smartFolders[i] === folder) {
+            // TODO: delete folder from real backend
+            smartFolders.splice(i, 1);
+            return;
+        }
+    }
 };
 
 // name - string

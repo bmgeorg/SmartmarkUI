@@ -9,8 +9,8 @@ module.showDialog = function(modal_id) {
         'opacity': 0,
     });
     overlay.fadeTo(200, 0.5);
-    overlay.one('click', function() {
-        module.closeDialog(modal_id);
+    overlay.click(function() {
+        module.closeDialog();
     });
 
     var modal = $('#' + modal_id);
@@ -18,11 +18,11 @@ module.showDialog = function(modal_id) {
 }
 
 // modal_id - string
-module.closeDialog = function(modal_id) {
+module.closeDialog = function() {
     var overlay = $('#dialog_overlay');
     overlay.fadeOut(200);
 
-    var modal = $('#' + modal_id);
+    var modal = $('.dialog');
     modal.hide();
 }
 
