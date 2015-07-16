@@ -1,7 +1,7 @@
 // Enable strict mode for entire script
 "use strict";
 
-var SMART_FOLDER_LIST = (function() {
+var SLIST = (function() {
 var module = {};
 
 // container - jQuery
@@ -13,43 +13,17 @@ module.loadIn = function(container) {
     for(var i = 0; i < smartFolders.length; i++) {
         addListItem(list, smartFolders[i]);
     }
+    // Deselect item if there is a click outside the list and dialogs
     UTILITY.clickOutside(
-        list.add('#confirm_delete_dialog').add('#dialog_overlay'),
-        'smart_folder_list',
+        list.add('.dialog').add('#dialog_overlay'),
+        'slist',
         function() {
             deselectItem(list);
         }
     );
     container.append(list);
 
-    configureConfirmDeleteDialog(container, list);
-}
-
-// container - jQuery
-// list - jQuery
-function configureConfirmDeleteDialog(container, list) {
-    var confirm = $('#confirm_delete');
-    // Necessary to clear old listeners because smart list could be reloaded, but confirm
-    // delete dialog will not be emptied and reloaded.
-    confirm.off('click');
-    confirm.click(function() {
-        var item = list.data('selectedItem');
-        if(item) {
-            var folder = item.data('smartFolder');
-            BACKEND.delete(folder);
-        }
-
-        // Close dialog and reload list
-        DIALOG.closeDialog();
-        container.empty();
-        module.loadIn(container);
-    });
-
-    var cancel = $('#cancel_delete');
-    cancel.off('click');
-    cancel.click(function() {
-        DIALOG.closeDialog();
-    });
+    setupConfirmDeleteDialog(container, list);
 }
 
 // list - jQuery
@@ -92,12 +66,12 @@ function addListItem(list, smartFolder) {
             $(this).val(theSmartFolder.name());
         }
     });
-    blurOnEnter(name);
+    UTILITY.blurOnEnter(name);
     topRow.append(name);
     // Add delete button
     var deleteButton = $('<div class="slist_item_delete hidden"></div>');
     deleteButton.click(function() {
-        DIALOG.showDialog('confirm_delete_dialog');
+        UTILITY.showDialog('confirm_delete_dialog');
     });
     topRow.append(deleteButton);
     item.append(topRow);
@@ -111,36 +85,46 @@ function addListItem(list, smartFolder) {
         var theSmartFolder = item.data('smartFolder');
         theSmartFolder.changeTagsString(newTagsString);
     });
-    blurOnEnter(tags);
+    UTILITY.blurOnEnter(tags);
     bottomRow.append(tags);
     item.append(bottomRow);
 
     list.append(item);
 }
 
+// container - jQuery
+// list - jQuery
+function setupConfirmDeleteDialog(container, list) {
+    var confirm = $('#confirm_delete');
+    // Necessary to clear old listeners because smart list could be reloaded, but confirm
+    // delete dialog will not be emptied and reloaded.
+    confirm.off('click');
+    confirm.click(function() {
+        var item = list.data('selectedItem');
+        if(item) {
+            var folder = item.data('smartFolder');
+            BACKEND.delete(folder);
+        }
+
+        // Close dialog and reload list
+        UTILITY.closeDialog();
+        container.empty();
+        module.loadIn(container);
+    });
+
+    var cancel = $('#cancel_delete');
+    cancel.off('click');
+    cancel.click(function() {
+        UTILITY.closeDialog();
+    });
+}
+
+
 // list - jQuery
 // item - jQuery
 function selectItem(list, item) {
     deselectItem(list);
     list.data('selectedItem', item);
-    expand(item);
-}
-
-function deselectItem(list) {
-    list.removeData('selectedItem');
-    collapseAll(list);
-}
-
-// list - jQuery
-function collapseAll(list) {
-    $('.slist_item', list).removeClass('slist_item_selected');
-    $('.slist_item_shield', list).removeClass('slist_item_disabled_shield')
-    $('.slist_item_bottom_row', list).addClass('hidden');
-    $('.slist_item_delete', list).addClass('hidden');
-}
-
-// item - jQuery
-function expand(item) {
     item.removeClass('slist_item_hover');
     item.addClass('slist_item_selected');
     $('.slist_item_shield', item).addClass('slist_item_disabled_shield');
@@ -148,15 +132,14 @@ function expand(item) {
     $('.slist_item_delete', item).removeClass('hidden');
 }
 
-// Adds event listener that causes input to lose focus on enter press
-// input - jQuery
-function blurOnEnter(input) {
-    input.keypress(function(e) {
-        if(e.which == 13) {
-            $(this).blur();
-        }
-    });
+function deselectItem(list) {
+    list.removeData('selectedItem');
+    $('.slist_item', list).removeClass('slist_item_selected');
+    $('.slist_item_shield', list).removeClass('slist_item_disabled_shield')
+    $('.slist_item_bottom_row', list).addClass('hidden');
+    $('.slist_item_delete', list).addClass('hidden');
 }
+
 
 return module;
 }());
