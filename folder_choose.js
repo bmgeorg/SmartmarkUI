@@ -96,7 +96,7 @@ function loadRootFolderList(outerList) {
         if(!isRoot(folder)) {
             var navigationBar = $('\
             <div class="folder_choose_navigation_bar light_border_bottom flex_row">\
-                <div class="back_button_icon xsmall_icon small_pad"></div>\
+                <div class="back_button_icon xs_icon small_pad"></div>\
                 <span class="current_list_folder_name">' + folder.title + '</span>\
             </div>\
             ');
@@ -115,7 +115,7 @@ function loadRootFolderList(outerList) {
         var row = $('\
         <div class="folder_choose_row light_border_bottom">\
             <div class="folder_choose_row_left">\
-                <div class="folder_icon small_icon"></div>\
+                <div class="folder_icon s_icon"></div>\
                 <span>' + folder.title + '</span>\
             </div>\
             <div class="folder_choose_row_right">\

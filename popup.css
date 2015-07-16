@@ -146,7 +146,7 @@ Utility classes
     display: flex;
     align-items: center;
 }
-.flex_right_item {
+.flex_right {
     margin-left: auto;
 }
 .hidden {
@@ -161,15 +161,14 @@ Icons
 */
 
 
-.xsmall_icon {
+.xs_icon {
     height: 15px;
     width: 15px;
 }
-.small_icon {
+.s_icon {
     height: 25px;
     width: 25px;
 }
-
 .folder_icon {
     background: url("http://icons.iconseeker.com/ico/minimal-folder/minimal-burnable-folder.ico") no-repeat center;
     background-size: 100%;
