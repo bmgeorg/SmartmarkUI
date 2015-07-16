@@ -13,9 +13,13 @@ module.loadIn = function(container) {
     for(var i = 0; i < smartFolders.length; i++) {
         addListItem(list, smartFolders[i]);
     }
-    UTILITY.clickOutside(list.add('#confirm_delete_dialog'), 'smart_folder_list', function() {
-        deselectItem(list);
-    });
+    UTILITY.clickOutside(
+        list.add('#confirm_delete_dialog').add('#dialog_overlay'),
+        'smart_folder_list',
+        function() {
+            deselectItem(list);
+        }
+    );
     container.append(list);
 
     configureConfirmDeleteDialog(container, list);
@@ -24,8 +28,7 @@ module.loadIn = function(container) {
 // container - jQuery
 // list - jQuery
 function configureConfirmDeleteDialog(container, list) {
-    var d = $('#confirm_delete_dialog');
-    var confirm = $('.confirm_delete', d);
+    var confirm = $('#confirm_delete');
     // Necessary to clear old listeners because smart list could be reloaded, but confirm
     // delete dialog will not be emptied and reloaded.
     confirm.off('click');
@@ -42,7 +45,7 @@ function configureConfirmDeleteDialog(container, list) {
         module.loadIn(container);
     });
 
-    var cancel = $('.cancel_delete', d);
+    var cancel = $('#cancel_delete');
     cancel.off('click');
     cancel.click(function() {
         DIALOG.closeDialog();
@@ -100,7 +103,7 @@ function addListItem(list, smartFolder) {
     item.append(topRow);
 
     var bottomRow = $('<div class="slist_item_bottom_row flex_row hidden"></div>');
-    var tags = $('<input type="text" class="full_height slist_item_tags" \
+    var tags = $('<input type="text" class="slist_item_tags full_height" \
         placeholder="Tags (C++, Java, imgur)" />');
     tags.attr("value", smartFolder.tagsString());
     tags.change(function() {

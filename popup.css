@@ -15,12 +15,12 @@ body {
        added to bottom of popup when content is expanded and then shrunk. */
     height: 0px;
 	margin: 0px;
+    /* default font settings */
     font-family: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 13px;
     line-height: 1.846;
     color: #666;
-}
-div {
+    /* by default, no text selection */
     -webkit-user-select: none;
     cursor: default;
 }
@@ -31,7 +31,6 @@ input {
     overflow: hidden;
     text-overflow: ellipsis;
     resize: none;
-    cursor: default;
 }
 input:focus {
     outline: #4d90fe solid 1px;
@@ -43,9 +42,9 @@ input:focus {
     background-color: #CFCFCF;
 }
 #current_page_block {
-    /* a hack to ensure inner div fills top and bottom of #smartmark div */
+    /* a hack to ensure #current_page_block fills to top and bottom of parent container */
     padding: 1px;
-    background-color: green;
+    background-color: lightblue;
 }
 #config_expand_button {
     width: 100%;
@@ -54,11 +53,10 @@ input:focus {
     background-size: 25px 25px;
 }
 #config_block {
+    display: none;
     max-height: 400px;
     overflow-y: auto;
     border-top: 1px solid #444;
-    /* Hide config_block until expanded by config_expand_button */
-    display: none;
 }
 
 
@@ -86,40 +84,24 @@ Dialogs
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    box-shadow: 0 0 10px #000;
+    padding: 15px;
     border-radius: 3px;
+    box-shadow: 0 0 10px #000;
+    background-color: #FFF;
 }
 .dialog_body {
     margin-bottom: 10px;
 }
 .dialog_footer {
-    display: flex;
 }
 #confirm_delete_dialog {
     width: 200px;
-    padding: 15px;
-    background-color: #FFF;
 }
-.btn {
-    display: inline-block;
-    height: 35px;
-    width: 80px;
-    color: #FFF;
-    border-radius: 3px;
-    box-shadow: 1px 1px 1px rgba(0,0,0,0.3);
-    border: none;
-    cursor: pointer;
-    outline: none;
-}
-.confirm_delete {
-    margin-left: auto;
+#confirm_delete {
     margin-right: 10px;
-    background-color: red;
 }
-.cancel_delete {
-    background-color: #888;
+#cancel_delete {
 }
-
 
 /*
 *************************************************************************
@@ -128,48 +110,38 @@ Utility classes
 */
 
 
+.btn {
+    display: inline-block;
+    height: 35px;
+    width: 80px;
+    color: #FFF;
+    border-radius: 3px;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    background-color: #888;
+}
+.btn_danger {
+    background-color: red;
+}
 .box {
-    margin: 10px;
     min-height: 20px;
-    background-color: #EEE;
-    border: 1px solid #AAA;
-}
-.small_pad {
+    margin: 10px;
     padding: 5px;
-}
-.small_height {
-    height: 30px;
+    border: 1px solid #AAA;
+    border-radius: 3px;
+    background-color: #EEE;
 }
 .full_height {
     height: 100%;
 }
-.small_width {
-    width: 80px;
-}
-
 .light_border {
     border: 1px solid #AAA;
 }
-.light_border_bottom {
-    border-bottom: 1px solid #AAA;
-}
-.dark_border_top {
-    border-top: 1px solid #888;
-}
-
-.dark_background {
-    background-color: #555;
-}
-
-.gray_text {
-    color: #888;
-}
-
 .center_x {
     margin-left: auto;
     margin-right: auto;
 }
-
 .flex_row {
     display: flex;
     align-items: center;
@@ -177,14 +149,6 @@ Utility classes
 .flex_right_item {
     margin-left: auto;
 }
-.flex_growable {
-    flex-grow: 1;
-}
-
-.no_border {
-    border: none;
-}
-
 .hidden {
     display: none;
 }

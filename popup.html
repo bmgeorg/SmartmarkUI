@@ -14,12 +14,12 @@
 <body tabindex="0">
 	<div id="smartmark">
 		<div id="current_page_block">
-			<div id="current_folder_box" class="box flex_row small_pad">
+			<div id="current_folder_box" class="box flex_row">
 				<div class="folder_icon small_icon"></div>
                 <span>Racquetball</span>
 				<span class="dropdown_icon xsmall_icon flex_right_item"></span>
 			</div>
-			<div id="recommended_folder_box" class="box flex_row small_pad" title="recommended folder for this page">
+			<div id="recommended_folder_box" class="box flex_row" title="recommended folder for this page">
 				<div class="lightbulb_icon small_icon"></div>
                 <span>Programming</span>
 				<span class="flex_right_item">Recommended</span>
@@ -31,9 +31,9 @@
         <!-- dialogs -->
         <div id="confirm_delete_dialog" class="dialog">
             <div class="dialog_body">Are you sure you want to delete this smart folder?</div>
-            <div class="dialog_footer">
-                <button class="confirm_delete btn">Confirm</button>
-                <button class="cancel_delete btn">Cancel</button>
+            <div class="dialog_footer flex_row">
+                <button id="confirm_delete" class="btn btn_danger flex_right_item">Confirm</button>
+                <button id="cancel_delete" class="btn">Cancel</button>
             </div>
         </div>
     </div>

@@ -9,6 +9,12 @@ smartFolders.push(new SmartFolder('Programming', 'C, C++, Class, Java'));
 smartFolders.push(new SmartFolder('Racquetball', 'Racquet, tennis, warehouse, shoe'));
 smartFolders.push(new SmartFolder('Racquetball', 'Racquet, tennis, warehouse, shoe'));
 smartFolders.push(new SmartFolder('Racquetball', 'Racquet, tennis, warehouse, shoe'));
+smartFolders.push(new SmartFolder('Racquetball', 'Racquet, tennis, warehouse, shoe'));
+smartFolders.push(new SmartFolder('Racquetball', 'Racquet, tennis, warehouse, shoe'));
+smartFolders.push(new SmartFolder('Racquetball', 'Racquet, tennis, warehouse, shoe'));
+smartFolders.push(new SmartFolder('Racquetball', 'Racquet, tennis, warehouse, shoe'));
+smartFolders.push(new SmartFolder('Racquetball', 'Racquet, tennis, warehouse, shoe'));
+smartFolders.push(new SmartFolder('Racquetball', 'Racquet, tennis, warehouse, shoe'));
 
 // folderId - string
 module.isSmartFolder = function(folderId) {
