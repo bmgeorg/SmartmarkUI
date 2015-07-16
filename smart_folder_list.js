@@ -7,7 +7,7 @@ var module = {};
 // container - jQuery
 module.loadIn = function(container) {
     container.empty();
-    var list = $('<div class="slist"></div>');
+    var list = $('<div id="slist"></div>');
 
     var smartFolders = BACKEND.smartFolders();
     for(var i = 0; i < smartFolders.length; i++) {
