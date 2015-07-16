@@ -2,10 +2,8 @@
 <head>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="utility.js"></script>
-  <script src="dialog.js"></script>
   <script src="backend.js"></script>
-  <script src="current_folder.js"></script>
-  <script src="slist.js"></script>
+  <script src="current.js"></script>
   <script src="config.js"></script>
   <link rel="stylesheet" type="text/css" href="popup.css">
 </head>
@@ -13,11 +11,13 @@
 <body tabindex="0">
 	<div id="smartmark">
 		<div id="current_page_block">
-			<div id="current_folder_box" class="box flex_row">
-				<div class="folder_icon s_icon"></div>
-                <span>Racquetball</span>
-				<span class="dropdown_icon xs_icon flex_right"></span>
-                <div id="clist"></div>
+			<div id="current_folder_box" class="box">
+                <div id="current_folder_row" class="flex_row">
+                    <div class="folder_icon s_icon"></div>
+                    <span>Racquetball</span>
+                    <span class="dropdown_icon xs_icon flex_right"></span>
+                </div>
+                <div id="clist_container"></div>
 			</div>
 			<div id="recommended_folder_box" class="box flex_row" title="recommended folder for this page">
 				<div class="lightbulb_icon s_icon"></div>
