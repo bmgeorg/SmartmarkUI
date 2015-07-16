@@ -133,7 +133,7 @@ function deselectItem(list) {
 
 // list - jQuery
 function collapseAll(list) {
-    $('.slist_item', list).removeClass('slist_item_expanded');
+    $('.slist_item', list).removeClass('slist_item_selected');
     $('.slist_item_shield', list).removeClass('slist_item_disabled_shield')
     $('.slist_item_bottom_row', list).addClass('hidden');
     $('.slist_item_delete', list).addClass('hidden');
@@ -142,7 +142,7 @@ function collapseAll(list) {
 // item - jQuery
 function expand(item) {
     item.removeClass('slist_item_hover');
-    item.addClass('slist_item_expanded');
+    item.addClass('slist_item_selected');
     $('.slist_item_shield', item).addClass('slist_item_disabled_shield');
     $('.slist_item_bottom_row', item).removeClass('hidden');
     $('.slist_item_delete', item).removeClass('hidden');
