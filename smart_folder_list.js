@@ -13,7 +13,9 @@ module.loadIn = function(container) {
     for(var i = 0; i < smartFolders.length; i++) {
         addListItem(list, smartFolders[i]);
     }
-
+    UTILITY.clickOutside(list.add('#confirm_delete_dialog'), 'smart_folder_list', function() {
+        deselectItem(list);
+    });
     container.append(list);
 
     configureConfirmDeleteDialog(container, list);
@@ -116,9 +118,14 @@ function addListItem(list, smartFolder) {
 // list - jQuery
 // item - jQuery
 function selectItem(list, item) {
+    deselectItem(list);
     list.data('selectedItem', item);
-    collapseAll(list);
     expand(item);
+}
+
+function deselectItem(list) {
+    list.removeData('selectedItem');
+    collapseAll(list);
 }
 
 // list - jQuery
