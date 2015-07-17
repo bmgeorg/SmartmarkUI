@@ -12,9 +12,6 @@ smartFolders.push(new SmartFolder('Racquetball', 'Racquet, tennis, warehouse, sh
 smartFolders.push(new SmartFolder('Racquetball', 'Racquet, tennis, warehouse, shoe'));
 smartFolders.push(new SmartFolder('Racquetball', 'Racquet, tennis, warehouse, shoe'));
 smartFolders.push(new SmartFolder('Racquetball', 'Racquet, tennis, warehouse, shoe'));
-smartFolders.push(new SmartFolder('Racquetball', 'Racquet, tennis, warehouse, shoe'));
-smartFolders.push(new SmartFolder('Racquetball', 'Racquet, tennis, warehouse, shoe'));
-smartFolders.push(new SmartFolder('Racquetball', 'Racquet, tennis, warehouse, shoe'));
 
 // folderId - string
 module.isSmartFolder = function(folderId) {

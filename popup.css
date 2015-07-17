@@ -45,6 +45,7 @@ input:focus {
     /* a hack to ensure #current_page_block fills to top and bottom of parent container */
     padding: 1px;
     background-color: lightblue;
+    border-bottom: 1px solid #777;
 }
 #config_expand_button {
     width: 100%;
@@ -56,7 +57,6 @@ input:focus {
     display: none;
     max-height: 400px;
     overflow-y: auto;
-    border-top: 1px solid #444;
 }
 
 
@@ -253,6 +253,10 @@ Current Folder Choose List
 *************************************************************************
 */
 
+
+#clist_container {
+    display: none;
+}
 
 /*
 *************************************************************************
