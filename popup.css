@@ -5,15 +5,7 @@ Entire page
 */
 
 
-html {
-    /* A hack to make popup resize to content - otherwise whitespace gets
-       added to bottom of popup when content is expanded and then shrunk. */
-    height: 0px;
-}
 body {
-    /* A hack to make popup resize to content - otherwise whitespace gets
-       added to bottom of popup when content is expanded and then shrunk. */
-    height: 0px;
 	margin: 0px;
     /* default font settings */
     font-family: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
