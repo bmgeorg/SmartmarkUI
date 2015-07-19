@@ -4,7 +4,10 @@
 var CONFIG = (function() {
 var module = {};
 
+var selectedItem; // jQuery
+
 $(function() {
+    // Show config on config button click
     $('#config_expand_button').click(function() {
         if($('#config_block').is(':visible')) {
             module.collapse();
@@ -13,12 +16,25 @@ $(function() {
         }
     });
 
-    var list = $('#slist');
-    setupConfirmDeleteDialog(list);
+    // Set up confirm-delete dialog
+    $('#confirm_delete').click(function() {
+        if(selectedItem) {
+            var folder = selectedItem.data('smartFolder');
+            BACKEND.delete(folder);
+        }
+
+        // Close dialog and reload list
+        UTILITY.closeDialog();
+        loadList();
+    });
+
+    $('#cancel_delete').click(function() {
+        UTILITY.closeDialog();
+    });
 
     // Deselect item if there is a click outside the list and dialogs
     UTILITY.clickOutside(
-        list.add('.dialog').add('#dialog_overlay'),
+        $('#slist').add('.dialog').add('#dialog_overlay'),
         'slist_deselect',
         deselect
     );
@@ -33,8 +49,6 @@ module.expand = function() {
     loadList();
     configBlock.show();
 }
-
-var selectedItem; // jQuery
 
 // item - jQuery
 function select(item) {
@@ -70,12 +84,24 @@ function loadList() {
 
 // smartFolder - SmartFolder (see backend.js)
 function createListItem(smartFolder) {
-    var item = $('<div class="slist_item"></div>');
+    var item = $('\
+    <div class="slist_item">\
+        <div class="slist_item_shield"></div>\
+        <div class="slist_item_top_row flex_row">\
+            <div class="lightbulb_folder_icon s_icon"></div>\
+            <input type="text" class="slist_item_name full_height"\
+            placeholder="Set folder name">\
+            <div class="slist_item_delete hidden"></div>\
+        </div>\
+        <div class="slist_item_bottom_row flex_row hidden">\
+        <input type="text" class="slist_item_tags full_height"\
+        placeholder="Tags (C++, Java, imgur)" value="Racquet, tennis, warehouse, shoe">\
+        </div>\
+    </div>\
+    ');
     item.data('smartFolder', smartFolder);
 
-    // shield absorbs hover and click events propagates them to item, preventing item's children
-    // from receiving the events
-    var shield = $('<div class="slist_item_shield"></div>');
+    var shield = $('.slist_item_shield', item);
     shield.hover(
         function() {
             item.addClass('slist_item_hover');
@@ -87,72 +113,38 @@ function createListItem(smartFolder) {
     shield.click(function() {
         select(item);
     });
-    item.append(shield);
 
-    var topRow = $('<div class="slist_item_top_row flex_row"></div>');
-    // Add folder icon
-    topRow.append('<div class="lightbulb_folder_icon s_icon"></div>');
-    // Add name input
-    var name = $('<input type="text" class="slist_item_name full_height" \
-        placeholder="Set folder name" />');
+    var name = $('.slist_item_name', item);
     name.val(smartFolder.name());
     name.change(function() {
-        var newName = $(this).val();
-        var theSmartFolder = item.data('smartFolder');
+        var newName = name.val();
+        var folder = item.data('smartFolder');
         // If newName is not empty and not just whitespace
         if(/\S/.test(newName)) {
-            theSmartFolder.changeName(newName);
+            folder.changeName(newName);
         } else {
             // Disallow empty/whitespace name - reset to previous value
-            $(this).val(theSmartFolder.name());
+            name.val(folder.name());
         }
     });
     UTILITY.blurOnEnter(name);
-    topRow.append(name);
-    // Add delete button
-    var deleteButton = $('<div class="slist_item_delete hidden"></div>');
+
+    var deleteButton = $('.slist_item_delete', item);
     deleteButton.click(function() {
         UTILITY.showDialog('confirm_delete_dialog');
     });
-    topRow.append(deleteButton);
-    item.append(topRow);
 
-    var bottomRow = $('<div class="slist_item_bottom_row flex_row hidden"></div>');
-    var tags = $('<input type="text" class="slist_item_tags full_height" \
-        placeholder="Tags (C++, Java, imgur)" />');
+    var tags = $('.slist_item_tags', item);
     tags.attr("value", smartFolder.tagsString());
     tags.change(function() {
-        var newTagsString = $(this).val();
-        var theSmartFolder = item.data('smartFolder');
-        theSmartFolder.changeTagsString(newTagsString);
+        var newTagsString = tags.val();
+        var folder = item.data('smartFolder');
+        folder.changeTagsString(newTagsString);
     });
     UTILITY.blurOnEnter(tags);
-    bottomRow.append(tags);
-    item.append(bottomRow);
 
     return item;
 }
-
-function setupConfirmDeleteDialog() {
-    var confirm = $('#confirm_delete');
-    confirm.click(function() {
-        if(selectedItem) {
-            var folder = selectedItem.data('smartFolder');
-            BACKEND.delete(folder);
-        }
-
-        // Close dialog and reload list
-        UTILITY.closeDialog();
-        loadList();
-    });
-
-    var cancel = $('#cancel_delete');
-    cancel.click(function() {
-        UTILITY.closeDialog();
-    });
-}
-
-
 
 return module;
 }());
