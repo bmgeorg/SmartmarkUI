@@ -17,7 +17,7 @@ $(function() {
             expand();
         }
     });
-    UTILITY.clickOutside(clist.add(current_folder_row), 'current_folder_expand', collapse);
+    UTILITY.clickOutside(clist.add(current_folder_row), 'clist_collapse', collapse);
 });
 
 function collapse() {
@@ -38,6 +38,7 @@ function setCurrentFolder(folder) {
     BACKEND.setCurrentFolder(folder);
 }
 
+// idempotent
 // list - jQuery
 // callback - function(SmartFolder)
 function loadList(list, callback) {

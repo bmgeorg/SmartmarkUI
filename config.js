@@ -20,14 +20,14 @@ module.collapse = function() {
 
 module.expand = function() {
     var configBlock = $('#config_block');
-    loadListIn(configBlock);
+    loadList($('#slist'));
     configBlock.show();
 }
 
-// container - jQuery
-function loadListIn(container) {
-    container.empty();
-    var list = $('<div id="slist"></div>');
+// idempotent
+// list - jQuery
+function loadList(list) {
+    list.empty();
 
     var smartFolders = BACKEND.smartFolders();
     for(var i = 0; i < smartFolders.length; i++) {
@@ -36,14 +36,13 @@ function loadListIn(container) {
     // Deselect item if there is a click outside the list and dialogs
     UTILITY.clickOutside(
         list.add('.dialog').add('#dialog_overlay'),
-        'slist',
+        'slist_deselect',
         function() {
             deselectItem(list);
         }
     );
-    container.append(list);
 
-    setupConfirmDeleteDialog(container, list);
+    setupConfirmDeleteDialog(list);
 }
 
 // list - jQuery
@@ -112,12 +111,10 @@ function addListItem(list, smartFolder) {
     list.append(item);
 }
 
-// container - jQuery
 // list - jQuery
-function setupConfirmDeleteDialog(container, list) {
+function setupConfirmDeleteDialog(list) {
     var confirm = $('#confirm_delete');
-    // Necessary to clear old listeners because smart list could be reloaded, but confirm
-    // delete dialog will not be emptied and reloaded.
+    // Clear old listeners.
     confirm.off('click');
     confirm.click(function() {
         var item = list.data('selectedItem');
@@ -128,8 +125,7 @@ function setupConfirmDeleteDialog(container, list) {
 
         // Close dialog and reload list
         UTILITY.closeDialog();
-        container.empty();
-        loadListIn(container);
+        loadList(list);
     });
 
     var cancel = $('#cancel_delete');
