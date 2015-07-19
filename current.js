@@ -24,8 +24,7 @@ function loadListIn(container) {
     var list = $('<div id="clist"></div>');
 
     var smartFolders = BACKEND.smartFolders();
-    //for(var i = 0; i < smartFolders.length; i++) {
-    for(var i = 0; i < 1; i++) {
+    for(var i = 0; i < smartFolders.length; i++) {
         var smartFolder = smartFolders[i];
         var item = $('<div class="clist_item"></div>');
         item.data('smartFolder', smartFolder);
