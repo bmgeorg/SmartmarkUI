@@ -12,6 +12,16 @@ $(function() {
             module.expand();
         }
     });
+
+    var list = $('#slist');
+    setupConfirmDeleteDialog(list);
+
+    // Deselect item if there is a click outside the list and dialogs
+    UTILITY.clickOutside(
+        list.add('.dialog').add('#dialog_overlay'),
+        'slist_deselect',
+        deselect
+    );
 });
 
 module.collapse = function() {
@@ -20,34 +30,46 @@ module.collapse = function() {
 
 module.expand = function() {
     var configBlock = $('#config_block');
-    loadList($('#slist'));
+    loadList();
     configBlock.show();
 }
 
+var selectedItem; // jQuery
+
+// item - jQuery
+function select(item) {
+    deselect();
+    selectedItem = item;
+    item.removeClass('slist_item_hover');
+    item.addClass('slist_item_selected');
+    $('.slist_item_shield', item).addClass('slist_item_disabled_shield');
+    $('.slist_item_bottom_row', item).removeClass('hidden');
+    $('.slist_item_delete', item).removeClass('hidden');
+}
+
+function deselect() {
+    if(selectedItem) {
+        selectedItem.removeClass('slist_item_selected');
+        $('.slist_item_shield', selectedItem).removeClass('slist_item_disabled_shield')
+        $('.slist_item_bottom_row', selectedItem).addClass('hidden');
+        $('.slist_item_delete', selectedItem).addClass('hidden');
+        selectedItem = undefined;
+    }
+}
+
 // idempotent
-// list - jQuery
-function loadList(list) {
+function loadList() {
+    var list = $('#slist');
     list.empty();
 
     var smartFolders = BACKEND.smartFolders();
     for(var i = 0; i < smartFolders.length; i++) {
-        addListItem(list, smartFolders[i]);
+        list.append(createListItem(smartFolders[i]));
     }
-    // Deselect item if there is a click outside the list and dialogs
-    UTILITY.clickOutside(
-        list.add('.dialog').add('#dialog_overlay'),
-        'slist_deselect',
-        function() {
-            deselectItem(list);
-        }
-    );
-
-    setupConfirmDeleteDialog(list);
 }
 
-// list - jQuery
 // smartFolder - SmartFolder (see backend.js)
-function addListItem(list, smartFolder) {
+function createListItem(smartFolder) {
     var item = $('<div class="slist_item"></div>');
     item.data('smartFolder', smartFolder);
 
@@ -63,7 +85,7 @@ function addListItem(list, smartFolder) {
         }
     );
     shield.click(function() {
-        selectItem(list, item);
+        select(item);
     });
     item.append(shield);
 
@@ -108,54 +130,29 @@ function addListItem(list, smartFolder) {
     bottomRow.append(tags);
     item.append(bottomRow);
 
-    list.append(item);
+    return item;
 }
 
-// list - jQuery
-function setupConfirmDeleteDialog(list) {
+function setupConfirmDeleteDialog() {
     var confirm = $('#confirm_delete');
-    // Clear old listeners.
-    confirm.off('click');
     confirm.click(function() {
-        var item = list.data('selectedItem');
-        if(item) {
-            var folder = item.data('smartFolder');
+        if(selectedItem) {
+            var folder = selectedItem.data('smartFolder');
             BACKEND.delete(folder);
         }
 
         // Close dialog and reload list
         UTILITY.closeDialog();
-        loadList(list);
+        loadList();
     });
 
     var cancel = $('#cancel_delete');
-    cancel.off('click');
     cancel.click(function() {
         UTILITY.closeDialog();
     });
 }
 
 
-// list - jQuery
-// item - jQuery
-function selectItem(list, item) {
-    deselectItem(list);
-    list.data('selectedItem', item);
-    item.removeClass('slist_item_hover');
-    item.addClass('slist_item_selected');
-    $('.slist_item_shield', item).addClass('slist_item_disabled_shield');
-    $('.slist_item_bottom_row', item).removeClass('hidden');
-    $('.slist_item_delete', item).removeClass('hidden');
-}
-
-// list - jQuery
-function deselectItem(list) {
-    list.removeData('selectedItem');
-    $('.slist_item', list).removeClass('slist_item_selected');
-    $('.slist_item_shield', list).removeClass('slist_item_disabled_shield')
-    $('.slist_item_bottom_row', list).addClass('hidden');
-    $('.slist_item_delete', list).addClass('hidden');
-}
 
 return module;
 }());
