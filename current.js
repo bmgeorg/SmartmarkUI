@@ -4,37 +4,57 @@
 var CURRENT = (function() {
 var module = {};
 
-//TODO: ask backend for current page folder
-//TODO: ask backend for recommended folder
-
 $(function() {
-    $('#current_folder_row').click(function() {
-        var container = $('#clist_container');
-        if(container.is(":visible")) {
-            container.hide();
+    //TODO: ask backend for current page folder
+    //TODO: ask backend for recommended folder
+
+    var clist = $('#clist');
+    var current_folder_row = $('#current_folder_row');
+    current_folder_row.click(function() {
+        if(clist.is(":visible")) {
+            collapse();
         } else {
-            loadListIn(container);
-            container.show();
+            expand();
         }
     });
+    UTILITY.clickOutside(clist.add(current_folder_row), 'current_folder_expand', collapse);
 });
 
-function loadListIn(container) {
-    container.empty();
-    var list = $('<div id="clist"></div>');
+function collapse() {
+    $('#clist').hide();
+}
+
+function expand() {
+    CONFIG.collapse();
+    var clist = $('#clist');
+    loadList(clist, setCurrentFolder);
+    clist.show();
+}
+
+// folder - SmartFolder
+function setCurrentFolder(folder) {
+    collapse();
+    $('#current_folder').text(folder.name());
+    BACKEND.setCurrentFolder(folder);
+}
+
+// list - jQuery
+// callback - function(SmartFolder)
+function loadList(list, callback) {
+    list.empty();
 
     var smartFolders = BACKEND.smartFolders();
     for(var i = 0; i < smartFolders.length; i++) {
-        var smartFolder = smartFolders[i];
-        var item = $('<div class="clist_item"></div>');
-        item.data('smartFolder', smartFolder);
-        item.text(smartFolder.name());
-        item.click(function() {
-            console.log('item clicked');
-        });
-        list.append(item);
+        (function(i) {
+            var smartFolder = smartFolders[i];
+            var item = $('<div class="clist_item"></div>');
+            item.text(smartFolder.name());
+            item.click(function() {
+                callback(smartFolder);
+            });
+            list.append(item);
+        }(i));
     }
-    container.append(list);
 }
 
 return module;

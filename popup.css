@@ -238,7 +238,7 @@ Current Block
 #current_folder_row {
     margin: 5px;
 }
-#clist_container {
+#clist {
     display: none;
     border-top: 1px solid #AAA;
     padding: 0px 10px;

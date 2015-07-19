@@ -5,18 +5,24 @@ var CONFIG = (function() {
 var module = {};
 
 $(function() {
-    $("#config_expand_button").click(function() {
-        var configBlock = $("#config_block");
-        if(configBlock.is(":visible")) {
-            configBlock.hide();
+    $('#config_expand_button').click(function() {
+        if($('#config_block').is(':visible')) {
+            module.collapse();
         } else {
-            loadListIn(configBlock);
-            // Eventually I may change this to slideDown(), but that's laggy right now
-            // Making elements fixed-width may help, but that stiffens the design too much right now
-            configBlock.show();
+            module.expand();
         }
     });
 });
+
+module.collapse = function() {
+    $('#config_block').hide();
+}
+
+module.expand = function() {
+    var configBlock = $('#config_block');
+    loadListIn(configBlock);
+    configBlock.show();
+}
 
 // container - jQuery
 function loadListIn(container) {

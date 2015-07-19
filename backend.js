@@ -25,6 +25,11 @@ module.smartFolders = function() {
 };
 
 // folder - SmartFolder
+module.setCurrentFolder = function(folder) {
+    console.log('Setting folder to ' + folder.name() + ' for current page');
+}
+
+// folder - SmartFolder
 module.delete = function(folder) {
     for(var i = 0; i < smartFolders.length; i++) {
         if(smartFolders[i] === folder) {
