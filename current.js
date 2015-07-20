@@ -26,8 +26,7 @@ function collapse() {
 
 function expand() {
     CONFIG.collapse();
-    var clist = $('#clist');
-    loadList(clist, setCurrentFolder);
+    loadList(setCurrentFolder);
     clist.show();
 }
 
@@ -39,9 +38,9 @@ function setCurrentFolder(folder) {
 }
 
 // idempotent
-// list - jQuery
-// callback - function(SmartFolder)
-function loadList(list, callback) {
+// onClick - function(SmartFolder)
+function loadList(list, onClick) {
+    var list = $('#clist');
     list.empty();
 
     var smartFolders = BACKEND.smartFolders();
@@ -51,7 +50,7 @@ function loadList(list, callback) {
             var item = $('<div class="clist_item"></div>');
             item.text(smartFolder.name());
             item.click(function() {
-                callback(smartFolder);
+                onClick(smartFolder);
             });
             list.append(item);
         }(i));
