@@ -40,14 +40,14 @@ $(function() {
     );
 });
 
-module.collapse = function() {
-    $('#config_block').hide();
-}
-
 module.expand = function() {
     var configBlock = $('#config_block');
     loadList();
     configBlock.show();
+}
+
+module.collapse = function() {
+    $('#config_block').hide();
 }
 
 // item - jQuery
@@ -76,10 +76,35 @@ function loadList() {
     var list = $('#slist');
     list.empty();
 
+    list.append(createNewFolderItem()); 
     var smartFolders = BACKEND.smartFolders();
     for(var i = 0; i < smartFolders.length; i++) {
         list.append(createListItem(smartFolders[i]));
     }
+}
+
+// returns jQuery
+function createNewFolderItem() {
+    var item = $('\
+    <div class="slist_item">\
+        <div class="slist_item_top_row">\
+        + Add new folder\
+        </div>\
+    </div>\
+    ');
+
+    item.hover(
+        function() {
+            item.addClass('slist_item_hover');
+        },
+        function() {
+            item.removeClass('slist_item_hover');
+        }
+    );
+    item.click(function() {
+        console.log("opening new folder dialog");
+    });
+    return item;
 }
 
 // smartFolder - SmartFolder (see backend.js)
@@ -102,6 +127,7 @@ function createListItem(smartFolder) {
     item.data('smartFolder', smartFolder);
 
     var shield = $('.slist_item_shield', item);
+    // Use custom class instead of css :hover to be able to remove class on click
     shield.hover(
         function() {
             item.addClass('slist_item_hover');

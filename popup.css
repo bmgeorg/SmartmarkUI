@@ -308,14 +308,14 @@ Config Block
     height: 25px;
     padding: 5px; 
 }
+.slist_item_bottom_row {
+    height: 25px;
+    padding: 5px; 
+    padding-top: 0px;
+}
 .slist_item_name {
     flex-grow: 1;
     margin-left: 5px;
-}
-.slist_item_bottom_row {
-    height: 25px;
-    padding: 5px;
-    padding-top: 0px;
 }
 .slist_item_tags {
     flex-grow: 1;
