@@ -27,7 +27,7 @@ function collapse() {
 function expand() {
     CONFIG.collapse();
     loadList(setCurrentFolder);
-    clist.show();
+    $('#clist').show();
 }
 
 // folder - SmartFolder
@@ -38,8 +38,8 @@ function setCurrentFolder(folder) {
 }
 
 // idempotent
-// onClick - function(SmartFolder)
-function loadList(list, onClick) {
+// onSelect - function(SmartFolder)
+function loadList(onSelect) {
     var list = $('#clist');
     list.empty();
 
@@ -50,7 +50,7 @@ function loadList(list, onClick) {
             var item = $('<div class="clist_item"></div>');
             item.text(smartFolder.name());
             item.click(function() {
-                onClick(smartFolder);
+                onSelect(smartFolder);
             });
             list.append(item);
         }(i));
