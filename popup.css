@@ -243,6 +243,7 @@ Current Block
     border-top: 1px solid #AAA;
     padding: 0px 10px;
     background-color: #FFF;
+    max-height: 200px;
 }
 .clist_item {
     padding: 0px 10px;
@@ -268,11 +269,11 @@ Config Block
 }
 #config_block {
     display: none;
-    max-height: 400px;
-    overflow-y: auto;
 }
 #slist {
     margin: 10px;
+    max-height: 400px;
+    overflow-y: auto;
 }
 .slist_item {
     position: relative;
