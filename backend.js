@@ -44,14 +44,12 @@ module.delete = function(folder) {
 // tagsString - array of string
 function SmartFolder(name, tagsString) {
     /* Public API */
-    this.name = function() { return this._name; };
-    this.tagsString = function() { return this._tagsString; };
-    this.changeName = function(newName) { this._name = newName; };
-    this.changeTagsString = function(newTagsString) { this._tagsString = newTagsString; };
+    this.name = function() { return name; };
+    this.tagsString = function() { return tagsString; };
+    this.changeName = function(newName) { name = newName; };
+    this.changeTagsString = function(newTagsString) { tagsString = newTagsString; };
     /* End */
 
-    this._name = name;
-    this._tagsString = tagsString;
 }
 
 return module;
