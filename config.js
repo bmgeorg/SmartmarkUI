@@ -102,7 +102,7 @@ function createNewFolderItem() {
         }
     );
     item.click(function() {
-        console.log("opening new folder dialog");
+        UTILITY.showDialog('new_folder_dialog');
     });
     return item;
 }
