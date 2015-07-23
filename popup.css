@@ -174,47 +174,50 @@ New Folder Dialog
 *************************************************************************
 */
 
+
 #new_folder_dialog {
     width: 250px;
 }
 #alist {
     position: relative;
     height: 200px;
-    width: 100%;
-    border: 1px solid #888;
+    border-top: 1px solid #888;
+    background-color: #FFF;
     overflow: hidden;
 }
+#alist_current_folder_row {
+    padding: 5px;
+}
+
 .alist_sublist {
-    overflow: auto;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
     max-height: 200px;
+    overflow-y: auto;
 }
 .alist_item {
     height: 35px;
     line-height: 35px;
 }
 .alist_item_left {
+    height: 100%;
     flex-grow: 1;
 }
 .alist_item_left:hover {
-    background-color: #888;
+    background-color: #EEE;
 }
-.folder_choose_row {
-    display: flex;
-    align-items: center;
-    height: 50px;
-}
-.folder_choose_row_left {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    flex-grow: 1;
-}
-.folder_choose_row_right {
+.alist_item_right {
     height: 100%;
     width: 30px;
     background: url("http://www.myiconfinder.com/uploads/iconsets/7e81c2f3697b91ee17fe6ed6348c232a-Arrow.png") no-repeat center;
     background-size: 10px 10px;
 }
+.alist_item_right:hover {
+    background-color: #EEE;
+}
+
 .create_folder_button {
     line-height: 30px;
     height: 100%;
@@ -242,7 +245,7 @@ Current Block
     padding: 5px;
 }
 #current_folder_row {
-    margin: 5px;
+    padding: 5px;
 }
 #clist {
     display: none;

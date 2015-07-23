@@ -102,6 +102,7 @@ function createNewFolderItem() {
         }
     );
     item.click(function() {
+        NEW_FOLDER.load();
         UTILITY.showDialog('new_folder_dialog');
     });
     return item;

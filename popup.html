@@ -9,9 +9,11 @@
   <script src="config.js"></script>
   <link rel="stylesheet" type="text/css" href="popup.css">
 </head>
+
 <!-- Add tabindex to body so that no other element receives autofocus -->
 <body tabindex="0">
 	<div id="smartmark">
+
 		<div id="current_page_block">
 			<div id="current_folder_box" class="box">
                 <div id="current_folder_row" class="flex_row">
@@ -27,10 +29,12 @@
 				<span class="flex_right">Recommended</span>
 			</div>
 		</div>
+
         <div id="config_block">
             <div id="slist"></div>
         </div>
         <div id="config_expand_button"></div>
+
         <!-- dialogs -->
         <div id="confirm_delete_dialog" class="dialog">
             <div class="dialog_body">Are you sure you want to delete this smart folder?</div>
@@ -41,8 +45,13 @@
         </div>
         <div id="new_folder_dialog" class="dialog">
             <div class="dialog_body">
-                <h2>New Folder</h2>
-                <div id="alist"></div>
+                <div id="new_folder_box" class="box">
+                    <div id="alist_current_folder_row" class="flex_row">
+                        <div class="folder_icon s_icon"></div>
+                        <span id="current_folder">None</span>
+                    </div>
+                    <div id="alist"></div>
+                </div>
             </div>
         </div>
         <div id="dialog_overlay"></div>

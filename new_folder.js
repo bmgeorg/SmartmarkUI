@@ -4,16 +4,13 @@
 var NEW_FOLDER = (function() {
 var module = {};
 
-$(function() {
-    load();
-});
-
-function load() {
+module.load = function() {
     var list = $('#alist');
     list.empty();
 
     chrome.bookmarks.getTree(function(tree) {
         var root = tree[0];
+        console.log("Initialize");
         list.append(createSublist(root));
     });
 }
@@ -25,6 +22,7 @@ var SlideDirectionEnum = {
 
 // folder - BookmarkTreeNode
 function createSublist(folder) {
+    console.log("Create sublist");
     var sublist = $('<div class="alist_sublist"></div>');
     for(let i = 0; i < folder.children.length; i++) {
         if(isFolder(folder.children[i])) {
@@ -76,6 +74,11 @@ function createListItem(folder) {
     var name = $('.alist_folder_name', item);
     name.text(folder.title);
 
+    var rightItem = $('.alist_item_right', item);
+    rightItem.click(function() {
+        replaceSublist(folder, SlideDirectionEnum.TO_LEFT);
+    });
+
     return item;
     /*
     // If folder is already a smart folder, gray out and replace folder icon
@@ -94,30 +97,22 @@ function createListItem(folder) {
     */
 }
 
-// outerList - jQuery
 // folder - BookmarkTreeNode
 // direction - SlideDirectionEnum
-function replaceInnerList(outerList, folder, direction) {
-    if(direction !== SlideDirectionEnum.TO_LEFT &&
-        direction !== SlideDirectionEnum.TO_RIGHT) {
-        throw "direction should be of type SlideDirectionEnum";
-    }
-    // Find old inner list inside outerList
-    var oldList = $(".folder_choose_inner_list", outerList).eq(0);
-
-    var newList = createInnerList(outerList, folder);
+function replaceSublist(folder, direction) {
+    var alist = $('#alist');
+    var oldList = $(".alist_sublist", alist);
+    var newList = createSublist(folder);
 
     /* hide newList to right or left, depending on slide direction */
+    var SLIDE_OFFSET = '300px';
     if(direction === SlideDirectionEnum.TO_LEFT) {
-        newList.css("left", FULL_WIDTH);
+        newList.css("left", SLIDE_OFFSET);
     } else if(direction === SlideDirectionEnum.TO_RIGHT) {
-        newList.css("left", "-" + FULL_WIDTH);
+        newList.css("left", "-" + SLIDE_OFFSET);
     }
 
-    outerList.append(newList);
-
-    // Store BookmarkTreeNode folder as data in the outerList
-    outerList.data("currentListFolder", folder);
+    alist.append(newList);
 
     // Animate sliding oldList out and newList in, then remove oldList.
     // Set queue to false to animate both concurrently.
@@ -126,12 +121,12 @@ function replaceInnerList(outerList, folder, direction) {
     );
     if(direction === SlideDirectionEnum.TO_LEFT) {
         oldList.animate(
-            {left: "-" + FULL_WIDTH}, { duration: 300, queue: false,
+            {left: "-" + SLIDE_OFFSET}, { duration: 300, queue: false,
             complete: function() { $(this).remove(); } }
         );
     } else {
         oldList.animate(
-            {left: FULL_WIDTH}, { duration: 300, queue: false,
+            {left: SLIDE_OFFSET}, { duration: 300, queue: false,
             complete: function() { $(this).remove(); } }
         );
     }
