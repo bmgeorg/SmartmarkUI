@@ -10,19 +10,20 @@ module.load = function() {
 
     chrome.bookmarks.getTree(function(tree) {
         var root = tree[0];
-        console.log("Initialize");
+        sublistFolder = root;
         list.append(createSublist(root));
     });
 }
 
-var SlideDirectionEnum = {
+var sublistFolder; // BookmarkTreeNode
+
+var SlideDirection = {
     TO_RIGHT: 0,
     TO_LEFT: 1,
 }
 
 // folder - BookmarkTreeNode
 function createSublist(folder) {
-    console.log("Create sublist");
     var sublist = $('<div class="alist_sublist"></div>');
     for(let i = 0; i < folder.children.length; i++) {
         if(isFolder(folder.children[i])) {
@@ -39,6 +40,7 @@ function createSublist(folder) {
     </div>\
     ');
     newList.prepend(newFolderRow)
+    */
 
     // Add navigation bar if folder is root
     if(!isRoot(folder)) {
@@ -48,12 +50,9 @@ function createSublist(folder) {
             <span class="current_list_folder_name">' + folder.title + '</span>\
         </div>\
         ');
-        navigationBar.click(function() {
-            navigateBack(outerList);    
-        });
-        newList.prepend(navigationBar);
+        navigationBar.click(navigateBack);
+        sublist.prepend(navigationBar);
     }
-    */
 
     return sublist;
 }
@@ -76,7 +75,8 @@ function createListItem(folder) {
 
     var rightItem = $('.alist_item_right', item);
     rightItem.click(function() {
-        replaceSublist(folder, SlideDirectionEnum.TO_LEFT);
+        sublistFolder = folder;
+        replaceSublist(folder, SlideDirection.TO_LEFT);
     });
 
     return item;
@@ -92,13 +92,13 @@ function createListItem(folder) {
     // Attach BookmarkTreeNode folder to row
     row.data("folder", folder);
     row.click(function() {
-        replaceInnerList(outerList, $(this).data("folder"), SlideDirectionEnum.TO_LEFT);
+        replaceInnerList(outerList, $(this).data("folder"), SlideDirection.TO_LEFT);
     });
     */
 }
 
 // folder - BookmarkTreeNode
-// direction - SlideDirectionEnum
+// direction - SlideDirection
 function replaceSublist(folder, direction) {
     var alist = $('#alist');
     var oldList = $(".alist_sublist", alist);
@@ -106,9 +106,9 @@ function replaceSublist(folder, direction) {
 
     /* hide newList to right or left, depending on slide direction */
     var SLIDE_OFFSET = '300px';
-    if(direction === SlideDirectionEnum.TO_LEFT) {
+    if(direction === SlideDirection.TO_LEFT) {
         newList.css("left", SLIDE_OFFSET);
-    } else if(direction === SlideDirectionEnum.TO_RIGHT) {
+    } else if(direction === SlideDirection.TO_RIGHT) {
         newList.css("left", "-" + SLIDE_OFFSET);
     }
 
@@ -119,26 +119,25 @@ function replaceSublist(folder, direction) {
     newList.animate(
         {left: "0px"}, { duration: 300, queue: false }
     );
-    if(direction === SlideDirectionEnum.TO_LEFT) {
+    if(direction === SlideDirection.TO_LEFT) {
         oldList.animate(
             {left: "-" + SLIDE_OFFSET}, { duration: 300, queue: false,
-            complete: function() { $(this).remove(); } }
+            complete: function() { oldList.remove(); } }
         );
     } else {
         oldList.animate(
             {left: SLIDE_OFFSET}, { duration: 300, queue: false,
-            complete: function() { $(this).remove(); } }
+            complete: function() { oldList.remove(); } }
         );
     }
 }
 
-// outerList - jQuery
-function navigateBack(outerList) {
-    var currentListFolder = outerList.data("currentListFolder");
+function navigateBack() {
     // Only navigate back if not at root
-    if(typeof currentListFolder.parentId !== "undefined") {
-        chrome.bookmarks.getSubTree(currentListFolder.parentId, function(parentNodeArray) {
-            replaceInnerList(outerList, parentNodeArray[0], SlideDirectionEnum.TO_RIGHT);
+    if(typeof sublistFolder.parentId !== "undefined") {
+        chrome.bookmarks.getSubTree(sublistFolder.parentId, function(parent) {
+            sublistFolder = parent[0];
+            replaceSublist(parent[0], SlideDirection.TO_RIGHT);
         });
     }
 }
