@@ -15,6 +15,9 @@ body {
     -webkit-user-select: none;
     cursor: default;
 }
+h1, h2, h3, h4, h5, h6 {
+    margin: 0px
+}
 input {
     background: transparent;
     border: none;
@@ -167,30 +170,33 @@ Icons
 
 /*
 *************************************************************************
-Folder Choose Dialog
+New Folder Dialog
 *************************************************************************
 */
 
-#new_folder_choose_dialog {
-    display: none;
+#new_folder_dialog {
+    width: 250px;
 }
-.folder_choose_outer_list {
+#alist {
+    position: relative;
     height: 200px;
     width: 100%;
-    position: relative;
+    border: 1px solid #888;
     overflow: hidden;
-    display: none;
 }
-.folder_choose_inner_list {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
+.alist_sublist {
     overflow: auto;
     max-height: 200px;
 }
-.folder_choose_list_bar {
+.alist_item {
     height: 35px;
+    line-height: 35px;
+}
+.alist_item_left {
+    flex-grow: 1;
+}
+.alist_item_left:hover {
+    background-color: #888;
 }
 .folder_choose_row {
     display: flex;
